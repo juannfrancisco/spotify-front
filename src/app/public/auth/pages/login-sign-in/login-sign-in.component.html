@@ -1,0 +1,36 @@
+<div class="form-signin text-center mt-5">
+    <div class="card border-0 rounded-3">
+        <div class="card-body">
+            <form  
+            [formGroup]="Singform"
+            class="needs-validation">
+
+            <img class="mb-4" src="./assets/img/logo-color.png" alt="" width="220" height="57">
+            <h5 class="h5 mb-5 fw-normal">Login Sing-in</h5>
+        
+            <div class="form-floating">
+                <input required type="email" class="form-control" formControlName="email" placeholder="name@example.com">
+                <div class="invalid-feedback">
+                    Llene el campo Email.
+                </div>
+                <label for="floatingInput">Email address</label>
+            </div>
+            <div class="form-floating">
+                <input required type="password" class="form-control" formControlName="password" placeholder="Password">
+                <div class="invalid-feedback">
+                    Llene el campo password.
+                </div>
+                <label for="floatingPassword">Password</label>
+            </div>
+        
+            <div class="checkbox mb-3">
+                <label>
+                <input type="checkbox" value="remember-me"> Acuérdate de mí
+                </label>
+            </div>
+            <button type="button" class="w-100  btn btn-lightning  mb-2 mr-2" (click)="formSubmit()">Iniciar sesión</button>
+            <p class="mt-5 mb-3 text-muted">Zenta 2023</p>
+            </form>
+        </div>
+    </div>
+  </div>

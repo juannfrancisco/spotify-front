@@ -1,0 +1,192 @@
+
+
+.wrapper.default-theme {
+
+  background: $bg-color;
+
+  nav.navbar {
+    background: $navbar-bg-color;
+    border-color: rgba($navbar-color, .3);
+
+    .navbar-brand {
+      color: lighten($navbar-color, 25%);
+    }
+
+    .left-nav {
+      input.navbar-search {
+        background: $navbar-background-icon-color;
+        color:$navbar-color;
+        &::placeholder{
+          color:rgba($navbar-color, .6);
+        }
+      }
+    }
+
+    .right-nav {
+      background: $navbar-bg-color;
+    }
+
+    .nav-link {
+      color: $navbar-color;
+
+      i {
+        border-color: $navbar-color;
+        background: $navbar-background-icon-color;
+      }
+
+      &:hover {
+        color: lighten($navbar-color, 15%);
+      }
+    }
+
+    .nav-alert {
+      border-color: $nav-alert-background-icon-color;
+
+      &.notifications {
+        background-color: $nav-alert-background-icon-color-borde;
+        box-shadow: 0px 0px 4px $nav-alert-background-color-borde;
+
+      }
+
+      &.messages {
+        background-color:$nav-alert-punto-icon-color;
+        box-shadow: 0px 0px 4px $nav-alert-punto-icon-color;
+
+      }
+    }
+  }
+
+  main {
+    .overlay {
+      background: $navbar-bg-color;
+    }
+
+    .sidebar {
+      background: $sidebar-bg-color;
+
+      >div {
+        border-color: rgba($sidebar-color, .1);
+      }
+
+      a.sidebar-link {
+        color: $sidebar-color;
+
+      }
+
+      .sidebar-profile {
+        .name {
+          color: $sidebar-color;
+        }
+
+        .role {
+          color: rgba($sidebar-color, .8);
+        }
+      }
+
+      .sidebar-menu {
+        .menu-header {
+          color: rgba($sidebar-color, .5);
+        }
+
+        .menu-items {
+          a {
+            color: rgba($sidebar-color, .7);
+
+            i {
+              color: $sidebar-icon-color;
+              color: $sidebar-bg-icon-color;
+              border: none;
+              width: auto;
+              font-size: 1rem;
+            }
+
+            &:hover,
+            &.active {
+              background: $sidebar-bg-color-active;
+              color: rgba($sidebar-color, .9);
+
+              i {
+                color: $sidebar-bg-color-active-select;
+              }
+            }
+          }
+        }
+        
+      }
+    }
+  }
+
+  .card {
+    box-shadow: 1px 1px 2px rgba($card-color-borde, .1);
+
+    .card-title {
+      color: rgba($sidebar-color, .8);
+    }
+
+    .card-icon {
+      i {
+        color: $card-color-icono;
+      }
+    }
+
+    .card-footer {
+      border-top: 1px solid $border-color;
+      background: none;
+    }
+
+    .card-title {
+      border-bottom: 1px solid $border-color;
+    }
+  }
+
+  .table {
+
+    th,
+    td {
+      border-top: 1px solid darken($border-color,2%);
+    }
+
+    thead th {
+      border-bottom: 2px solid darken($border-color,2%);
+    }
+
+    &.table-striped tbody tr:nth-of-type(odd) {
+      background-color: lighten($border-color,1%);
+    }
+
+    &.table-hover tbody tr:hover {
+      background-color: lighten($border-color, 1%);
+    }
+  }
+
+  .btn {
+    font-size: .9rem;
+
+    &.btn-lightning {
+      color: $button-color-text;
+      background-color: $button-color-background;
+      border-color: $button-color-borde;
+
+      &:hover {
+        background-color: $button-color-background-hover;
+      }
+    }
+
+    &.btn-outline-lightning {
+      color: $button-outline-color-text;
+      background-color: $button-outline-color-background;
+      border-color: $button-outline-color-borde;
+
+      &:hover {
+        color: $button-outline-color-text-hover;
+        background-color: $button-outline-color-background-hover;
+        border-color: $button-outline-color-borde-hover;
+      }
+    }
+  }
+
+  .form-control {
+    font-size: .9rem;
+  }
+
+}

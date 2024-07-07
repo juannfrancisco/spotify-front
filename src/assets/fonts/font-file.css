@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'ubuntu-regular';
+  src: url('./Ubuntu-Regular.ttf') format('opentype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ubuntu-bold';
+  src: url('./Ubuntu-Bold.ttf') format('opentype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ubuntu-bold-italic';
+  src: url('./Ubuntu-BoldItalic.ttf') format('opentype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ubuntu-italic';
+  src: url('./Ubuntu-Italic.ttf') format('opentype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ubuntu-light';
+  src: url('./Ubuntu-Light.ttf') format('opentype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ubuntu-light-italic';
+  src: url('./Ubuntu-LightItalic.ttf') format('opentype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ubuntu-medium';
+  src: url('./Ubuntu-Medium.ttf') format('opentype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ubuntu-medium-italic';
+  src: url('./Ubuntu-MediumItalic.ttf') format('opentype');
+  font-display: swap;
+}

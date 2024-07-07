@@ -1,0 +1,12 @@
+<div class="wrapper default-theme" [ngClass]="getClasses()">
+  <app-navbar-maintainer></app-navbar-maintainer>
+  <main>
+    <app-sidebar-maintainer class="margen-maintainer"></app-sidebar-maintainer>
+    <div class="pages container-fluid mb-3 margen-maintainer">
+      <router-outlet></router-outlet>
+
+      <app-footer-maintainer></app-footer-maintainer>
+    </div>
+    <div class="overlay" (click)="toggleSidebar()"></div>
+  </main>
+</div>

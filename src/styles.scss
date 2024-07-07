@@ -1,0 +1,67 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+
+$hamburger-padding-x           : 0px !default;
+$hamburger-padding-y           : 0px !default;
+$hamburger-layer-width         : 25px !default;
+$hamburger-layer-height        : 2px !default;
+$hamburger-layer-spacing       : 5px !default;
+$hamburger-layer-color         : #9b9ea2 !default;
+$hamburger-layer-border-radius : 4px !default;
+$hamburger-hover-opacity       : 0.7 !default;
+
+@import 'bootstrap/scss/bootstrap';
+@import 'ngx-toastr/toastr-bs5-alert';
+
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/solid';
+@import '@fortawesome/fontawesome-free/scss/regular';
+@import '@fortawesome/fontawesome-free/scss/brands';
+
+@import './assets/lightning-admin';
+
+.progress-bar {
+    height: 4px;
+    background-color: rgba(5, 114, 206, 0.2);
+    width: 100%;
+    overflow: hidden;
+}
+
+.progress-bar-value {
+    width: 100%;
+    height: 100%;
+    background-color: #282f48;
+    animation: indeterminateAnimation 2s infinite linear;
+    transform-origin: 0% 50%;
+}
+
+@keyframes indeterminateAnimation {
+    0% {
+        transform: translateX(0) scaleX(0);
+    }
+
+    40% {
+        transform: translateX(0) scaleX(0.4);
+    }
+
+    100% {
+        transform: translateX(100%) scaleX(0.5);
+    }
+}
+
+.backgroundTableForm {
+    position: relative !important; 
+    width: fit-content !important; 
+    min-width: 100% !important; 
+    height: auto !important; 
+    object-fit: contain !important; 
+    border-radius: 21px !important; 
+    border: 2px solid $navbar-background-icon-color !important; 
+}
+.footer-web {
+    position: fixed;
+    bottom: 0;
+}
+

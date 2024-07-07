@@ -1,0 +1,10 @@
+<div [ngClass]="{'wrapper default-theme': mainter == true}">
+    <router-outlet></router-outlet>
+</div>
+<!-- PACMAN
+<ngx-spinner bdColor = "rgba(0,0,0,0.8)" size = "medium" color = "#ffffff" type = "pacman" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner> -->
+
+<ngx-spinner bdColor="rgba(0,0,0,0.8)" size="large" color="#ffffff" type="ball-clip-rotate-multiple"
+[fullScreen]="true"
+template="<img src='./assets/img/logo-zenta.png' width='350' height='250' class='center animate__animated animate__pulse animate__infinite'/>">
+</ngx-spinner>

@@ -1,0 +1,59 @@
+:host ::ng-deep {
+    .dt-buttons {
+        margin: 15px !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        font-size: 13px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.1;
+        letter-spacing: normal;
+        text-align: left;
+        color: #ffffff !important;
+        opacity: 1.0;
+        border: 1px solid #4c4a656b;
+        border-radius: 5px;
+        background-color: transparent !important;
+        margin-top: 15px !important;
+  
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        color: #ffffff !important;
+        opacity: 1.0;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.1;
+        letter-spacing: normal;
+        border: 1px solid #f80800 !important;
+        background-color: #fff;
+        background: -webkit-gradient(linear, left top, left bottom, from(white), to(gainsboro));
+        background: linear-gradient(to bottom, #fff 0, #dcdcdc 100%);
+        margin-bottom: 2% !important;
+    }
+  
+    .modal-content{
+        border-radius: 50px !important;
+        background-color:transparent  !important;
+      }
+
+    .dt-button{
+        color: #f0f3ff !important;
+        background-color: #5b6582 !important;
+        border-color: #5b6582 !important;
+  
+        &:hover {
+          background-color: #4c5671 !important;
+        }
+    }
+
+    .dataTables_length{
+        margin-top: 1% !important;
+        margin-left: 1% !important;
+    }
+}
+

@@ -1,0 +1,85 @@
+
+<div class="mt-0 m-4">
+  <div class="card border-0 rounded-0 h-100 mb-4">
+    <div class="card-body">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/maintainer">Home</a>
+          </li>
+          <li class="breadcrumb-item active">Vacantes</li>
+          </ol>
+        </nav>
+      </div>
+  </div>
+  <div class="card border-0 rounded-0">
+    <div class="card-title mb-1 p-3">
+      <div class="row">
+        <div class="col">
+          <h5>Listado producto</h5>
+        </div>
+        <div class="col text-end">
+          <a class="btn btn-lightning">
+            <i class="fa-solid fa-plus fs-6"></i>
+            Crear producto
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding:0px;">
+      <div class="backgroundTable">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="componente-importantes
+          componente-importantes-from-popup">
+          <ng-container *ngIf="listViewProjectDto.length==0">
+            <div class="text-center text-color">
+              <h2 class="text-color px-5 mt-5">Sin Registro</h2>
+              <i class="fa-solid fa-face-sad-cry 2fa-5x my-3"></i>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="listViewProjectDto.length !=0">
+            <thead>
+              <tr>
+                <th class="text-color text-center">Fecha creacion</th>
+                <th class="text-color text-center">Nombre producto</th>
+                <th class="text-color text-center">Proveedor</th>
+                <th class="text-color text-center">Categoria</th>
+                <th class="text-color text-center">Sub categoria</th>
+                <th class="text-color text-center">stock</th>
+                <th class="text-color text-center">Precio</th>
+                <th class="text-color text-center">Acumula puntos</th>
+                <th class="text-color text-center">Canje en puntos</th>
+                <th class="text-color text-center">Descuento</th>
+                <th class="text-color text-center">Opcion</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listViewProjectDto">
+                <td class="text-center pointer text-init text-color">{{item.data1}}</td>
+                <td class="text-center pointer text-init text-color">{{item.data2}}</td>
+                <td class="text-center pointer text-init text-color">{{item.data3}}</td>
+                <td class="text-center pointer text-init text-color">{{item.data4}}</td>
+                <td class="text-center pointer text-init text-color">{{item.data5}}</td>
+                <td class="text-center pointer text-init text-color">{{item.data6}}</td>
+                <td class="text-center pointer text-init text-color">{{item.data7}}</td>
+                <td class="text-center pointer text-init text-color">{{item.data8}}</td>
+                <td class="text-center pointer text-init text-color">{{item.data9}}</td>
+                <td class="text-center pointer text-init text-color">{{item.data10}}</td>
+                <td class="text-center">
+                  <div ngbDropdown class="d-inline-block">
+                    <i class="fa-solid fa-gear fa-xl pointer" id="dropdownBasic1" ngbDropdownToggle></i>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem>Ver Más</button>
+                      <button ngbDropdownItem>Editar Información</button>
+                      <button ngbDropdownItem>Descuento personalizado</button>
+                      <button ngbDropdownItem>Vendidos</button>
+                      <button ngbDropdownItem>Activar</button>
+                      <button ngbDropdownItem>Desactivar</button>
+                    </div>
+                  </div>
+                </td>
+            </tbody>
+          </ng-container>
+        </table>
+      </div>
+    </div>
+</div>
+

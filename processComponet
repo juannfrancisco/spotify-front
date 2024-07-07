@@ -1,0 +1,1213 @@
+
+#!/bin/bash
+
+infoVersionOption=1
+
+if command -v node &> /dev/null; then
+    echo "Validando...."
+else
+    echo ""
+    echo ""
+    echo "** NODE JS NO ESTÁ INSTALADO EN ESTE SISTEMA. **"
+    echo ""
+    echo ""
+    exit
+fi
+
+# RECUERDA ACTUALIZAR LOS OTRO SH
+numVersion="1.0"
+versionActual="01="
+versionSiguiente="02=";
+
+# ID único del archivo en Google Drive (extraído de la URL)
+ID_DEL_ARCHIVO="1u3kEZmVnDeQUfxMYySkp6hnoOvD_1g9e"
+
+# URL pública del archivo
+url="https://drive.google.com/uc?id=$ID_DEL_ARCHIVO"
+
+# Descargar el archivo
+curl -s -L -o version_angular.txt "$url"
+
+archivo_enc="version_angular.txt"
+hex_clave="b1c872b2b214230615d475da889db4ae71cb77210dacb0f530d834509b599820"
+hex_iv="28af1db094d975873f9e33f1ff1951c0"
+
+texto_desencriptado=$(openssl enc -aes-256-cbc -d -in "$archivo_enc" -K $hex_clave -iv $hex_iv)
+
+
+# Buscar y almacenar el resultado en una variable
+infoActual=$(echo "$texto_desencriptado" | awk -F '\n' -v pat="$versionActual" '$0 ~ pat {print}')
+
+# Buscar y almacenar el resultado en una variable
+infoUpdate=$(echo "$texto_desencriptado" | awk -F '\n' -v pat="$versionSiguiente" '$0 ~ pat {print}')
+
+rm version_angular.txt
+
+IFS="=" read -r campo1 campo2 campo3 campo4 <<< "$infoActual"
+
+if [[ $campo2 == $numVersion && $campo3 == "TRUE" ]];  then
+        echo ""
+        echo ""
+        echo  "** EXISTE UNA NUEVA VERSION DE ENTORNO Y LO DEBES ACTUALIZAR PARA CONTINUAR **"
+        echo ""
+        echo ""
+        exit
+fi
+
+if [[ $infoUpdate != "" ]]
+then
+        echo ""
+        echo ""
+        echo "*** EXISTE UNA NUEVA VERSION DE ENTORNO, PARA SU ACTUALIZACION ***"
+        echo ""
+        echo ""
+fi
+
+if command -v ng &> /dev/null; then
+    echo ""
+else
+    echo ""
+    echo ""
+    echo  "***  ANGULAR NO ESTÁ INSTALADO EN EL SISTEMA. POR FAVOR, INSTÁLELO ANTES DE CONTINUAR.  ***"
+    echo ""
+    echo ""
+    exit
+fi
+
+# Obtener la versión actual de NestJS instalada
+current_version=$(npm list -g @angular/cli | grep @angular/cli | awk -F@ '{print $NF}' | tr -d '[:space:]')
+
+# Definir los límites del rango
+lower_limit="16.0.0"
+upper_limit="16.2.12"
+
+
+# Función para comparar versiones
+compare_versions() {
+    version1=$1
+    version2=$2
+
+    IFS='.' read -ra v1 <<< "$version1"
+    IFS='.' read -ra v2 <<< "$version2"
+
+    for i in {0..2}; do
+        if [ "${v1[$i]}" -lt "${v2[$i]}" ]; then
+            return 1
+        elif [ "${v1[$i]}" -gt "${v2[$i]}" ]; then
+            return 2
+        fi
+    done
+
+    return 0
+}
+
+
+# Comparar la versión actual con los límites del rango
+compare_versions "$current_version" "$lower_limit"
+lower_comparison_result=$?
+
+compare_versions "$current_version" "$upper_limit"
+upper_comparison_result=$?
+
+# Mostrar resultados
+if [ "$lower_comparison_result" -eq 1 ] || [ "$upper_comparison_result" -eq 2 ]; then
+    echo ""
+    echo ""
+    echo "* La versión de Angular ($current_version) está fuera del rango permitido ($lower_limit - $upper_limit) *"
+    echo ""
+    echo ""
+     exit
+else
+    echo ""
+fi
+
+nameModule="ejemploFinal"
+namePagina="infoFinal"
+nameRuta="ruta"
+segurity="0"
+
+
+if [[ $infoVersionOption == "1" ]] 
+then
+opcionUbication="2"
+fi
+if [[ $infoVersionOption == "2" ]] 
+then
+opcionUbication="1"
+fi
+
+if [[ $infoVersionOption == "3" ]] 
+then
+read -p "
+ ----Opciones Ubicacion----
+ 
+ * Opción 1 Web 
+ * Opción 2 Maintainer
+ 
+ - Ingrese el numero: " opcionUbication
+fi
+
+echo ""
+echo ""
+read -p "
+ ----Crear modulo o pagina Opciones----
+ 
+ * Opción 1 Crear modulo nuevo con pagina
+ * Opción 2 Crear pagina dentro de un modulo 
+ 
+ - Ingrese el numero: " opcionGlobal
+
+if [[ $opcionGlobal == "1" ]] 
+then
+valide=0
+while [ $valide -lt 1 ]; do
+echo ""
+echo ""
+read -p " - Ingrese el nombre del modulo que desea crear: " nameModule
+
+if echo "$nameModule" | grep -qE '^[a-zA-Z]+$'
+        then
+            echo  ""
+            valide=1
+        else
+       
+        echo ""
+        echo ""
+        echo  "***  ERROR CONTIENE SIMBOLO, ESPACIOS O NUMERO  ***"
+        echo ""
+        echo ""
+        valide=0
+    fi
+
+done
+
+else 
+
+valide=0
+while [ $valide -lt 1 ]; do
+echo ""
+echo ""
+read -p "Ecribe tal cual el nombre de modulo donde quieres crear la pagina: " nameModule
+
+if [[ $opcionUbication == "1" ]] 
+then
+infouB="public"
+else 
+infouB="private"
+fi
+archivo_a_verificar="src/app/$infouB/$nameModule"
+
+if [ -e "$archivo_a_verificar" ]; 
+then
+        valide=1
+else
+        echo ""
+        echo ""
+        echo  "***  ERROR EL NOMBRE $nameModule NO EXISTE, FAVOR INGRESAR NUEVAMENTE  ***"
+        echo ""
+        echo ""
+fi
+done
+
+fi
+
+
+valide=0
+while [ $valide -lt 1 ]; do
+echo ""
+echo ""
+read -p " - Ingrese el nombre de la pagina que desea crear: " namePagina
+
+if echo "$namePagina" | grep -qE '^[a-zA-Z]+$'
+        then
+            echo  ""
+            valide=1
+        else
+       
+        echo ""
+        echo ""
+        echo  "***  ERROR CONTIENE SIMBOLO, ESPACIOS O NUMERO  ***"
+        echo ""
+        echo ""
+        valide=0
+    fi
+
+done
+
+if [[ $opcionUbication == "2" ]] 
+then
+echo ""
+echo ""
+read -p "
+ ----Incluir ejemplo desarrollo----
+ 
+ * Opción 1 Agregar formulario
+ * Opción 2 Agregar Data-table
+ * Opción 3 Vacio
+ 
+ - Ingrese el numero :" opcionExemple
+echo ""
+echo ""
+read -p "
+ ----Quieres proteger la ruta por roles----
+ 
+ * Opción 1 SI 
+ * Opción 2 NO
+ 
+ - Ingrese el numero: " opcionRol
+
+if [[ $opcionRol == "2" ]] 
+then
+segurity="0"
+else 
+echo ""
+echo ""
+read -p "Ecribe el codigo o nombre del rol : " segurity
+fi
+
+else 
+opcionExemple=3
+fi
+
+valide=0
+
+while [ $valide -lt 1 ]; do
+
+echo ""
+echo ""
+read -p " - Ingrese el nombre de la ruta que desea visualizar: " nameRuta
+
+
+valide=1
+
+        if echo "$nameRuta" | grep -qE '^[a-zA-Z-]+$'; 
+        then
+            echo  ""
+        else
+       
+                echo ""
+                echo ""
+                echo  "***  ERROR CONTIENE SIMBOLO O ESPACIOS  ***"
+                echo ""
+                echo ""
+                valide=0
+        fi
+
+        firstchar=${nameRuta:0:1}
+
+        if [[ $firstchar == *"-"* ]] 
+        then 
+            echo ""
+            echo ""
+            echo  "***  ERROR NO PUEDE INCIAR CON GUION MEDIO  ***"
+            echo ""
+            echo ""
+            valide=0
+
+        else
+
+            firstchar=${nameRuta:$((longitud-1)):1}
+
+            if [[ $firstchar == *"-"* ]] 
+            then 
+                echo ""
+                echo ""
+                echo  "***  ERROR NO PUEDE FINALIZAR CON GUION MEDIO  ***"
+                echo ""
+                echo ""
+                valide=0
+
+        
+            fi
+            
+        fi
+
+done
+
+nameRuta=$(echo "$nameRuta" | tr '[:upper:]' '[:lower:]')
+
+if [[ $opcionGlobal == "1" ]] 
+then
+
+  nameGuion=$(echo "$nameModule" | awk '{gsub(/([A-Z])/, "-&"); print tolower($0)}')
+
+  # Elimina el guión inicial si lo hay
+  if [[ ${nameGuion:0:1} == "-" ]]; then
+      nameGuion=${nameGuion:1}
+  fi
+else
+nameGuion=$nameModule
+fi
+
+nameGuionPage=$(echo "$namePagina" | awk '{gsub(/([A-Z])/, "-&"); print tolower($0)}')
+
+# Elimina el guión inicial si lo hay
+if [[ ${nameGuionPage:0:1} == "-" ]]; then
+    nameGuionPage=${nameGuionPage:1}
+fi
+
+
+cd src
+cd app
+if [[ $opcionUbication == "2" ]] 
+then
+cd private
+fi
+if [[ $opcionUbication == "1" ]] 
+then
+cd public
+fi
+
+if [[ $opcionGlobal == "1" ]] 
+then
+mkdir $nameGuion
+fi
+cd $nameGuion
+
+#texto_modificado=$(echo -n ${nameModule:0:1} | tr '[:lower:]' '[:upper:]'; echo ${nameModule:1})
+#texto_pagina=$(echo -n ${namePagina:0:1} | tr '[:lower:]' '[:upper:]'; echo ${namePagina:1})
+
+texto_modificado=$nameModule
+texto_pagina=$namePagina
+
+if [[ $opcionGlobal == "1" ]] 
+then
+mkdir components
+mkdir models
+mkdir pages
+mkdir services
+
+touch $nameGuion-routing.module.ts
+touch $nameGuion.module.ts
+
+
+modules="import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { SessionGuard } from 'src/app/core/guards/session.guard';
+import { $texto_pagina"Component" } from './pages/$nameGuionPage/$nameGuionPage.component';
+
+const routes: Routes = [
+  {
+    path: '$nameRuta',
+    component: $texto_pagina"Component",canActivate: [SessionGuard], data: {role: ['$segurity']}
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class $texto_modificado"RoutingModule" { }"
+
+if [[ $opcionUbication == "1" ]] 
+then
+modules="import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { $texto_pagina"Component" } from './pages/$nameGuionPage/$nameGuionPage.component';
+
+const routes: Routes = [
+  {
+    path: '$nameRuta',
+    component: $texto_pagina"Component"
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class $texto_modificado"RoutingModule" { }"
+fi
+
+echo "$modules" >> $nameGuion-routing.module.ts
+
+if [[ $opcionExemple != "3" ]]
+then
+if [[ $opcionExemple == "1" ]]
+then
+infoExpo="ReactiveFormsModule,
+    NgMultiSelectDropDownModule.forRoot(),"
+infoImpo="import { ReactiveFormsModule } from '@angular/forms';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';"
+fi
+if [[ $opcionExemple == "2" ]]
+then
+infoExpo="DataTablesModule.forRoot(),"
+infoImpo="import { DataTablesModule } from 'angular-datatables';"
+fi
+fi
+
+modules="import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { $texto_modificado"RoutingModule" } from './$nameGuion-routing.module';
+$infoImpo
+@NgModule({
+  declarations: [],
+  imports: [
+    CommonModule,
+    NgbModule,
+    $texto_modificado"RoutingModule,"
+    $infoExpo
+  ]
+})
+export class $texto_modificado"Module" { }"
+
+echo "$modules" >> $nameGuion.module.ts
+
+else
+
+archivo=$nameGuion-routing.module.ts
+numero_linea=$(awk '/];/ {last_linea = NR} END {print last_linea}' "$archivo")
+
+suma=$((numero_linea))
+
+texto_a_agregar=()
+texto_a_agregar+=("  {")
+texto_a_agregar+=("    path: '$nameRuta',")
+if [[ $opcionUbication == "1" ]] 
+then
+texto_a_agregar+=("    component: $texto_pagina"Component"")
+fi
+if [[ $opcionUbication == "2" ]] 
+then
+texto_a_agregar+=("    component: $texto_pagina"Component",canActivate: [SessionGuard], data: {role: ['$segurity']}")
+fi 
+texto_a_agregar+=("  },")
+
+longitud=${#texto_a_agregar[@]}
+
+for ((i=0; i<$longitud; i++)); do
+  awk -v line="$suma" -v text="${texto_a_agregar[$i]}" 'NR==line {print text "\n" $0; next} 1' "$archivo" > tmpfile && mv tmpfile "$archivo"
+  suma=$((suma + 1))
+done
+
+numero_linea=$(awk '/import {/ {last_linea = NR} END {print last_linea}' "$archivo")
+
+suma=$((numero_linea))
+
+texto_a_agregar=()
+texto_a_agregar+=("import { $texto_pagina"Component" } from './pages/$nameGuionPage/$nameGuionPage.component';")
+
+longitud=${#texto_a_agregar[@]}
+
+for ((i=0; i<$longitud; i++)); do
+  awk -v line="$suma" -v text="${texto_a_agregar[$i]}" 'NR==line {print text "\n" $0; next} 1' "$archivo" > tmpfile && mv tmpfile "$archivo"
+  suma=$((suma + 1))
+done
+
+if [[ $opcionExemple != "3" ]]
+then
+
+archivo=$nameGuion.module.ts
+
+dataForms="false"
+dataMulti="false"
+dataTable="false"
+if grep -q "ReactiveFormsModule" "$archivo"; then
+  dataForms="true"
+fi
+
+if grep -q "NgMultiSelectDropDownModule" "$archivo"; then
+dataMulti="true"
+fi
+
+if grep -q "DataTablesModule" "$archivo"; then
+dataTable="true"
+fi
+
+##IMPORTAR
+numero_linea=$(awk '/import {/ {last_linea = NR} END {print last_linea}' "$archivo")
+
+suma=$((numero_linea))
+
+texto_a_agregar=()
+if [[ $dataForms == "false" && $opcionExemple == "1" ]]; then
+texto_a_agregar+=("import { ReactiveFormsModule } from '@angular/forms';")
+fi
+if [[ $dataMulti == "false" && $opcionExemple == "1" ]]; then
+texto_a_agregar+=("import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';")
+fi
+if [[ $dataTable == "false" && $opcionExemple == "2" ]]; then
+texto_a_agregar+=("import { DataTablesModule } from 'angular-datatables';")
+fi
+
+longitud=${#texto_a_agregar[@]}
+
+for ((i=0; i<$longitud; i++)); do
+  awk -v line="$suma" -v text="${texto_a_agregar[$i]}" 'NR==line {print text "\n" $0; next} 1' "$archivo" > tmpfile && mv tmpfile "$archivo"
+  suma=$((suma + 1))
+done
+
+##IMPORTAR DOCUMYT
+numero_linea_init=$(awk '/imports:/ {last_linea = NR} END {print last_linea}' "$archivo")
+
+numero_linea=$(awk 'NR>='$numero_linea_init' && /]/ {print NR; exit;}' "$archivo")
+
+suma=$((numero_linea))
+
+texto_a_agregar=()
+if [[ $dataForms == "false" && $opcionExemple == "1" ]]; then
+texto_a_agregar+=("    ReactiveFormsModule,")
+fi
+if [[ $dataMulti == "false" && $opcionExemple == "1" ]]; then
+texto_a_agregar+=("    NgMultiSelectDropDownModule.forRoot(),")
+fi
+if [[ $dataTable == "false" && $opcionExemple == "2" ]]; then
+texto_a_agregar+=("    DataTablesModule.forRoot(),")
+fi
+
+longitud=${#texto_a_agregar[@]}
+
+for ((i=0; i<$longitud; i++)); do
+  awk -v line="$suma" -v text="${texto_a_agregar[$i]}" 'NR==line {print text "\n" $0; next} 1' "$archivo" > tmpfile && mv tmpfile "$archivo"
+  suma=$((suma + 1))
+done
+
+
+fi
+
+
+fi
+
+cd pages
+ng generate component $namePagina
+
+
+if [[ $opcionExemple == "1" ]]
+then
+cd $nameGuionPage
+modules="
+
+<div class=\"mt-0 m-4\">
+  <div class=\"card border-0 rounded-0 h-100 mb-4\">
+    <div class=\"card-body\">
+      <nav aria-label=\"breadcrumb\">
+        <ol class=\"breadcrumb mb-0\">
+          <li class=\"breadcrumb-item\">
+            <a href=\"/maintainer\">Home</a>
+          </li>
+          <li class=\"breadcrumb-item active\">Productos</li>
+          <li class=\"breadcrumb-item active\">Nuevo</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+   <div class=\"card border-0 rounded-0 h-100 mb-4\">
+      <div class=\"card-title mb-1 p-3\">
+        <div>
+          <h5>Crear producto</h5>
+        </div>
+      </div>
+      <div class=\"card-body\">        
+            <div class=\"p-3\">
+                <form
+                  action=\"\"
+                  method=\"post\"
+                  [formGroup]=\"categoryForm\"
+                  class=\"needs-validation row mx-5\"
+                >
+                    <div class=\"col-md-4 my-2\">
+                        <label for=\"inpuName\" class=\"form-label text-color\">Nombre producto</label>
+                        <input required type=\"text\" class=\"form-control custom-outline-input\" formControlName=\"name\"  placeholder=\"Ingrese información\" aria-label=\"First name\">
+                    </div>
+                    <div class=\"col-md-4 my-2\">
+                        <label for=\"inputEmail4\" class=\"form-label text-color\">Proveedor</label>
+                        <select required class=\"form-control custom-outline-input\" formControlName=\"typeProveedor\">
+                          <option class=\"text-white\" value=\"\" disabled selected>Seleccione...</option>
+                          <option class=\"text-white\" value=\"1\">Google</option>
+                          <option class=\"text-white\" value=\"2\">Aws</option>
+                          <option class=\"text-white\" value=\"3\">Azure</option>
+                          <option class=\"text-white\" value=\"4\">Monday</option>
+                          <!-- <option *ngFor=\"let item of listCost\" [value]=\"item.id_name\"> {{item.name}}</option> -->
+                        </select>
+                            <div class=\"invalid-feedback\">
+                                Seleccione un Tipo de Proveedor.
+                            </div>
+                    </div>
+  
+                    <div class=\"col-md-4 my-2\">
+                        <label for=\"inputCategory\" class=\"form-label text-color\">Categoria</label>
+                        <select required class=\"form-control custom-outline-input\"  formControlName=\"typeCategory\">
+                            <option class=\"text-white\" value=\"\" disabled selected>Seleccione...</option>
+                            <option selected class=\"text-white\" value=\"1\" >Nube</option>
+                            <option selected class=\"text-white\" value=\"2\" >Desarrollo</option>
+                            <option selected class=\"text-white\" value=\"3\" >Devop</option>
+                            <option selected class=\"text-white\" value=\"4\" >QA</option>
+                            <!-- <option *ngFor=\"let item of listCost\" [value]=\"item.id_name\"> {{item.name}}</option> -->
+                            </select>
+                            <div class=\"invalid-feedback\">
+                                Seleccione un Tipo de categoria.
+                            </div>
+                    </div>
+  
+                    <div class=\"col-md-4 my-2\">
+                        <label for=\"inputSubCategory\" class=\"form-label text-color\">Sub categoria</label>
+                        <select required class=\"form-control custom-outline-input\"  formControlName=\"typeCategory\">
+                            <option class=\"text-white\" value=\"\" disabled selected>Seleccione...</option>
+                            <option selected class=\"text-white\" value=\"1\" >Almacenamiento</option>
+                            <option selected class=\"text-white\" value=\"2\" >Maquina</option>
+                            <!-- <option *ngFor=\"let item of listCost\" [value]=\"item.id_name\"> {{item.name}}</option> -->
+                            </select>
+                            <div class=\"invalid-feedback\">
+                                Seleccione un Tipo de categoria.
+                            </div>
+                    </div>
+  
+                    <div class=\"col-md-4 my-2\">
+                        <label for=\"inputStock\" class=\"form-label text-color\">Stock</label>
+                        <input required type=\"text\" class=\"form-control custom-outline-input\" formControlName=\"stock\"  placeholder=\"Ingrese información\" aria-label=\"First name\">
+                        <div class=\"invalid-feedback\">
+                          Llene el campo Stock.
+                         </div>
+                    </div>
+  
+                    <div class=\"col-md-4 my-2\">
+                        <label for=\"inputStockCritica\" class=\"form-label text-color\">Aviso Stock Critico</label>
+                        <input required type=\"text\" class=\"form-control custom-outline-input\" formControlName=\"stockCritica\"  placeholder=\"Ingrese información\" aria-label=\"First name\">
+                        <div class=\"invalid-feedback\">
+                          Llene el campo Stock Critico.
+                         </div>
+                    </div>
+  
+                    <div class=\"col-md-4 my-2\">
+                        <label for=\"inputPoint\" class=\"form-label text-color\">Acumulacion de punto</label>
+                        <input required type=\"text\" class=\"form-control custom-outline-input\" formControlName=\"point\"  placeholder=\"Ingrese información\" aria-label=\"First name\">
+                        <div class=\"invalid-feedback\">
+                          Llene el campo Acumulacion de punto.
+                         </div>
+                    </div>
+  
+                    <div class=\"col-md-4 my-2\">
+                        <label for=\"inputCaje\" class=\"form-label text-color\">Punto de canje</label>
+                        <input required type=\"text\" class=\"form-control custom-outline-input\" formControlName=\"canje\"  placeholder=\"Ingrese información\" aria-label=\"First name\">
+                    </div>
+  
+                    <div class=\"col-md-4 my-2\">
+                        <label for=\"inputDescription\" class=\"form-label text-color\">Descripcion minima</label>
+                        <input required type=\"text\" class=\"form-control custom-outline-input\" formControlName=\"decription\"  placeholder=\"Ingrese información\" aria-label=\"First name\">
+                    </div>
+  
+  
+                    <div class=\"col-md-4 my-2\">
+                      <label for=\"inputMonth\" class=\"form-label text-color\">Seleccione Mes</label>
+                      <input required type=\"month\" class=\"form-control custom-outline-input date\" id=\"month_date\"
+                      formControlName=\"month_date\"  (change)=\"onViewMoth()\">
+                    </div>
+
+                    <div class=\"col-md-4 my-2\">
+                      <label for=\"inputDate\" class=\"form-label text-color\">Seleccione Día</label>
+                      <input required type=\"date\" class=\"form-control custom-outline-input date\" id=\"day_date\"
+                      formControlName=\"day_date\"  (change)=\"onViewDay()\">
+                    </div>
+
+                    <div class=\"col-md-4 my-2\">
+                      <label for=\"inputDecriptionMaxima\" class=\"form-label text-color\">Descripcion maxima</label>
+                     <input required type=\"text\" class=\"form-control custom-outline-input\" formControlName=\"decriptionMaxima\"  placeholder=\"Ingrese información\" aria-label=\"First name\">
+                    </div>
+
+                    <div class=\"col-md-4 my-2\">
+                      <label for=\"inputMultiSelect\" class=\"form-label text-color\">Seleccion multiple</label>
+                        <ng-multiselect-dropdown id=\"stado\" formControlName=\"stado\" 
+                        [placeholder]=\"'Estados'\"
+                        [settings]=\"dropdownSettings\"
+                        [data]=\"filterProjectInfoDto\"
+                        (onSelect)=\"onItemSelect(\$event)\">
+                      </ng-multiselect-dropdown>
+                  </div>     
+                  <div class=\"col-12 mt-3 d-flex justify-content-center\">
+                    <button class=\"btn btn-lightning\" (click)=\"formSubmit()\">Confirmar</button>
+                  </div>
+                </form>
+              </div>
+        </div>
+        </div>
+    </div>
+"
+
+echo "$modules" > $nameGuionPage.component.html
+
+
+modules="input#month_date {
+    display: inline-block;
+    position: relative;
+  }
+
+input[type=\"month\"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+
+input#day_date {
+    display: inline-block;
+    position: relative;
+}
+
+input[type=\"date\"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}"
+echo "$modules" > $nameGuionPage.component.scss
+
+modules="import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DropdownSettingsStado } from 'src/app/shared/util/multiselect-option/multiselect-option';
+
+@Component({
+  selector: 'app-$nameGuionPage',
+  templateUrl: './$nameGuionPage.component.html',
+  styleUrls: ['./$nameGuionPage.component.scss']
+})
+export class $texto_pagina"Component" implements OnInit {
+
+  closeResult = '';
+  categoryForm: FormGroup;
+  dropdownSettings = {};
+  filterProjectInfoDto: any;
+
+  constructor(private fb: FormBuilder) {
+
+   }
+
+  ngOnInit(): void {
+    this.filterProjectInfoDto = [];
+    this.dropdownSettings = DropdownSettingsStado();
+
+    this.categoryForm = this.fb.group(
+      {
+        name: '', 
+        typeProveedor: '',
+        typeCategory: '',
+        typeClient: '',
+        stock: '',
+        stockCritica: '',
+        point: '',
+        canje: '',
+        decription: '',
+        month_date: '',
+        day_date: '',
+        decriptionMaxima: '',
+        stado: '', 
+      }
+    );
+
+    let info = {
+      id:1,
+      name:\"Nube GCP\",
+    };
+    this.filterProjectInfoDto.push(info);
+    info = {
+      id:2,
+      name:\"Nube AMAZON\",
+    };
+    this.filterProjectInfoDto.push(info);
+    info = {
+      id:3,
+      name:\"Nube AZURE\",
+    };
+    this.filterProjectInfoDto.push(info);
+  }
+
+  formSubmit(){
+    
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    if (!form.checkValidity()) {
+        form.classList.add('was-validated');
+    }else{
+    
+    }
+  }
+
+  onItemSelect(item: any) {
+      console.log(item);
+  }
+  
+  onViewMoth(){
+    console.log(this.categoryForm.get('month_date').value);
+  }
+
+  onViewDay(){
+    console.log(this.categoryForm.get('day_date').value);
+  }
+  
+}
+"
+echo "$modules" > $nameGuionPage.component.ts
+cd ..
+fi
+
+if [[ $opcionExemple == "2" ]]
+then
+cd $nameGuionPage
+modules="
+<div class=\"mt-0 m-4\">
+  <div class=\"card border-0 rounded-0 h-100 mb-4\">
+    <div class=\"card-body\">
+      <nav aria-label=\"breadcrumb\">
+        <ol class=\"breadcrumb mb-0\">
+          <li class=\"breadcrumb-item\">
+            <a href=\"/maintainer\">Home</a>
+          </li>
+          <li class=\"breadcrumb-item active\">Vacantes</li>
+          </ol>
+        </nav>
+      </div>
+  </div>
+  <div class=\"card border-0 rounded-0\">
+    <div class=\"card-title mb-1 p-3\">
+      <div class=\"row\">
+        <div class=\"col\">
+          <h5>Listado producto</h5>
+        </div>
+        <div class=\"col text-end\">
+          <a class=\"btn btn-lightning\">
+            <i class=\"fa-solid fa-plus fs-6\"></i>
+            Crear producto
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class=\"card-body\" style=\"padding:0px;\">
+      <div class=\"backgroundTable\">
+        <table datatable [dtOptions]=\"dtOptions\" [dtTrigger]=\"dtTrigger\" class=\"componente-importantes
+          componente-importantes-from-popup\">
+          <ng-container *ngIf=\"listViewProjectDto.length==0\">
+            <div class=\"text-center text-color\">
+              <h2 class=\"text-color px-5 mt-5\">Sin Registro</h2>
+              <i class=\"fa-solid fa-face-sad-cry 2fa-5x my-3\"></i>
+            </div>
+          </ng-container>
+          <ng-container *ngIf=\"listViewProjectDto.length !=0\">
+            <thead>
+              <tr>
+                <th class=\"text-color text-center\">Fecha creacion</th>
+                <th class=\"text-color text-center\">Nombre producto</th>
+                <th class=\"text-color text-center\">Proveedor</th>
+                <th class=\"text-color text-center\">Categoria</th>
+                <th class=\"text-color text-center\">Sub categoria</th>
+                <th class=\"text-color text-center\">stock</th>
+                <th class=\"text-color text-center\">Precio</th>
+                <th class=\"text-color text-center\">Acumula puntos</th>
+                <th class=\"text-color text-center\">Canje en puntos</th>
+                <th class=\"text-color text-center\">Descuento</th>
+                <th class=\"text-color text-center\">Opcion</th>
+            </thead>
+            <tbody>
+              <tr *ngFor=\"let item of listViewProjectDto\">
+                <td class=\"text-center pointer text-init text-color\">{{item.data1}}</td>
+                <td class=\"text-center pointer text-init text-color\">{{item.data2}}</td>
+                <td class=\"text-center pointer text-init text-color\">{{item.data3}}</td>
+                <td class=\"text-center pointer text-init text-color\">{{item.data4}}</td>
+                <td class=\"text-center pointer text-init text-color\">{{item.data5}}</td>
+                <td class=\"text-center pointer text-init text-color\">{{item.data6}}</td>
+                <td class=\"text-center pointer text-init text-color\">{{item.data7}}</td>
+                <td class=\"text-center pointer text-init text-color\">{{item.data8}}</td>
+                <td class=\"text-center pointer text-init text-color\">{{item.data9}}</td>
+                <td class=\"text-center pointer text-init text-color\">{{item.data10}}</td>
+                <td class=\"text-center\">
+                  <div ngbDropdown class=\"d-inline-block\">
+                    <i class=\"fa-solid fa-gear fa-xl pointer\" id=\"dropdownBasic1\" ngbDropdownToggle></i>
+                    <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">
+                      <button ngbDropdownItem>Ver Más</button>
+                      <button ngbDropdownItem>Editar Información</button>
+                      <button ngbDropdownItem>Descuento personalizado</button>
+                      <button ngbDropdownItem>Vendidos</button>
+                      <button ngbDropdownItem>Activar</button>
+                      <button ngbDropdownItem>Desactivar</button>
+                    </div>
+                  </div>
+                </td>
+            </tbody>
+          </ng-container>
+        </table>
+      </div>
+    </div>
+</div>
+"
+echo "$modules" > $nameGuionPage.component.html
+
+
+modules=":host ::ng-deep {
+    .dt-buttons {
+        margin: 15px !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        font-size: 13px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.1;
+        letter-spacing: normal;
+        text-align: left;
+        color: #ffffff !important;
+        opacity: 1.0;
+        border: 1px solid #4c4a656b;
+        border-radius: 5px;
+        background-color: transparent !important;
+        margin-top: 15px !important;
+  
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        color: #ffffff !important;
+        opacity: 1.0;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.1;
+        letter-spacing: normal;
+        border: 1px solid #f80800 !important;
+        background-color: #fff;
+        background: -webkit-gradient(linear, left top, left bottom, from(white), to(gainsboro));
+        background: linear-gradient(to bottom, #fff 0, #dcdcdc 100%);
+        margin-bottom: 2% !important;
+    }
+  
+    .modal-content{
+        border-radius: 50px !important;
+        background-color:transparent  !important;
+      }
+
+    .dt-button{
+        color: #f0f3ff !important;
+        background-color: #5b6582 !important;
+        border-color: #5b6582 !important;
+  
+        &:hover {
+          background-color: #4c5671 !important;
+        }
+    }
+
+    .dataTables_length{
+        margin-top: 1% !important;
+        margin-left: 1% !important;
+    }
+}
+"
+echo "$modules" > $nameGuionPage.component.scss
+
+
+modules="import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Subject } from 'rxjs';
+import { FormatDataTableGlobal } from 'src/app/shared/util/datatables-option/formatDataTable';
+import { DataTableDirective } from 'angular-datatables';
+
+@Component({
+  selector: 'app-$nameGuionPage',
+  templateUrl: './$nameGuionPage.component.html',
+  styleUrls: ['./$nameGuionPage.component.scss']
+})
+export class $texto_pagina"Component" implements AfterViewInit, OnDestroy, OnInit {
+ 
+  //declaracion importante para datatable
+  @ViewChildren(DataTableDirective)
+  datatableElements: QueryList<DataTableDirective>;
+  dtTrigger: Subject<any> = new Subject();
+  dtOptions = FormatDataTableGlobal();
+  //Fin declaracion
+
+  listViewProjectDto: any[];
+
+  constructor(private spinner: NgxSpinnerService,
+
+  ) 
+  { }
+ 
+ 
+  ngOnInit(): void {
+
+
+    this.listViewProjectDto = [];
+    this.dtOptions = FormatDataTableGlobal();
+    
+    this.calledService();
+  }
+
+  calledService(){
+
+    this.spinner.show();
+    for(var i = 1; i < 50; i++){
+      let info = {
+        data1:\"20/03/2022\",
+        data2:\"Nube GCP\",
+        data3:\"Google\",
+        data4:\"Nube\",
+        data5:\"--\",
+        data6:20,
+        data7:\"20 UF\",
+        data8:\"15\",
+        data9:\"4000\",
+        data10:\"SI\"
+      };
+      this.listViewProjectDto.push(info);
+    }
+    this.spinner.hide();
+   
+
+ 
+  }
+  //importante para datatable
+  ngAfterViewInit(): void {
+    this.dtTrigger.next(0);
+
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+
+  }
+
+  rerender(): void {
+      this.datatableElements.forEach((dtElement: DataTableDirective) => {
+        dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          dtInstance.destroy();
+          this.dtTrigger.next(0);
+        });
+      });
+  }
+  
+  //Fin
+
+}"
+echo "$modules" > $nameGuionPage.component.ts
+cd ..
+fi
+
+
+cd ..
+cd ..
+if [[ $opcionGlobal == "1" ]] 
+then
+cd home
+
+archivo="home-maintainer-routing.module.ts"
+if [[ $opcionUbication == "1" ]] 
+then
+archivo="home-web-routing.module.ts"
+fi
+
+numero_linea=$(awk '/NotFoundComponent/ {last_linea = NR} END {print last_linea}' "$archivo")
+
+if [[ $numero_linea == '' ]]
+then
+numero_linea=$(awk '/];/ {last_linea = NR} END {print last_linea}' "$archivo")
+fi
+
+suma=$((numero_linea))
+
+texto_a_agregar=()
+texto_a_agregar+=("  {")
+texto_a_agregar+=("    path: '$nameGuion',")
+texto_a_agregar+=("    loadChildren: () => import('../$nameGuion/$nameGuion.module').then(m => m."$texto_modificado"Module)")
+if [[ $opcionUbication == "2" ]] 
+then
+texto_a_agregar+=("    ,canActivate: [SessionGuard], data: {role: ['$segurity']}")
+fi
+texto_a_agregar+=("  },")
+
+longitud=${#texto_a_agregar[@]}
+
+for ((i=0; i<$longitud; i++)); do
+  awk -v line="$suma" -v text="${texto_a_agregar[$i]}" 'NR==line {print text "\n" $0; next} 1' "$archivo" > tmpfile && mv tmpfile "$archivo"
+  suma=$((suma + 1))
+done
+cd ..
+fi
+
+cd ..
+cd shared
+cd components
+if [[ $opcionUbication == "1" ]] 
+then
+cd public
+cd navbar-web
+fi
+if [[ $opcionUbication == "2" ]] 
+then
+cd private
+cd sidebar-maintainer
+fi
+
+
+archivo="sidebar-maintainer.component.html"
+
+if [[ $opcionUbication == "1" ]] 
+then
+archivo="navbar-web.component.html"
+
+numero_linea=$(awk '/<li/ {print NR; exit;}' "$archivo")
+
+if [[ $numero_linea == '' ]] 
+then
+numero_linea=$(awk '/<ul/ {print NR; exit;}' "$archivo")
+suma=$((numero_linea + 1))
+else
+suma=$((numero_linea))
+fi
+
+
+texto_a_agregar=()
+texto_a_agregar+=("          <li class=\"nav-item px-3 pt-3 \">")
+texto_a_agregar+=("            <a class=\"nav-link size16-ubuntu text-black\" [routerLink]=\"['$nameGuion/$nameRuta']\" aria-current=\"page\">$namePagina</a>")
+texto_a_agregar+=("          </li>")
+
+longitud=${#texto_a_agregar[@]}
+
+for ((i=0; i<$longitud; i++)); do
+  awk -v line="$suma" -v text="${texto_a_agregar[$i]}" 'NR==line {print text "\n" $0; next} 1' "$archivo" > tmpfile && mv tmpfile "$archivo"
+  suma=$((suma + 1))
+done
+
+else
+
+numero_linea=$(awk '/<\/li>/ {last_linea = NR} END {print last_linea}' "$archivo")
+
+suma=$((numero_linea+1))
+
+texto_a_agregar=()
+texto_a_agregar+=("      <li>")
+texto_a_agregar+=("        <a href=\"#\" routerLink=\"/{{urlPrimary}}/$nameGuion/$nameRuta\" routerLinkActive=\"active\">")
+texto_a_agregar+=("          <i class=\"fa fa-tv\"></i>")
+texto_a_agregar+=("          <span>$namePagina</span>")
+texto_a_agregar+=("          <span class=\"badge badge-warning rounded-0 text-dark p-1\"></span>")
+texto_a_agregar+=("        </a>")
+texto_a_agregar+=("      </li>")
+
+longitud=${#texto_a_agregar[@]}
+
+for ((i=0; i<$longitud; i++)); do
+  awk -v line="$suma" -v text="${texto_a_agregar[$i]}" 'NR==line {print text "\n" $0; next} 1' "$archivo" > tmpfile && mv tmpfile "$archivo"
+  suma=$((suma + 1))
+done
+fi
+
+cd ..
+cd ..
+cd ..
+npm run lint
+
+        echo "********************************************************************************"
+        echo "*                                                                              *"
+        echo "*  *********************    FIN DEL PROCESO CREACION   *********************   *"
+        echo "*                                                                              *"
+        echo "********************************************************************************"
