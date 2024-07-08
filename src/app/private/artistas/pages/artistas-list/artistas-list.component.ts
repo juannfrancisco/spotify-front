@@ -30,8 +30,9 @@ export class ArtistasListComponent implements AfterViewInit, OnDestroy, OnInit {
  
  
   ngOnInit(): void {
+    
     this.callHttpService();
-    this.dtOptions = FormatDataTableGlobal();
+    
   }
 
   async callHttpService(){
@@ -41,6 +42,8 @@ export class ArtistasListComponent implements AfterViewInit, OnDestroy, OnInit {
       let artistasLocal = await this.service.getAlls().toPromise();
       this.artistas = artistasLocal;
       this.loading = false;
+      this.dtOptions = FormatDataTableGlobal();
+      this.rerender();
     } catch (error) {
       this.loading = false;
       this.error=true;

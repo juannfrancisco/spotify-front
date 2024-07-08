@@ -51,32 +51,29 @@
           <ng-container *ngIf="artistas.length !=0">
             <thead>
               <tr>
-                <th class="text-color text-center">Id</th>
-                <th class="text-color text-center">Nombre</th>
-                <th class="text-color text-center">Bio</th>
-                <th class="text-color text-center">Pais de Origen</th>
-                <th class="text-color text-center">Genero Musical</th>
-                <th class="text-color text-center">Oyentes Mensuales</th>
-                <th class="text-color text-center">Opcion</th>
+                <th class="text-color text-start">Id</th>
+                <th class="text-color text-start">Nombre</th>
+                <th class="text-color text-start">Bio</th>
+                <th class="text-color text-start">País de Origen</th>
+                <th class="text-color text-start">Género Musical</th>
+                <th class="text-color text-start">Oyentes Mensuales</th>
+                <th class="text-color text-start">Opciones</th>
             </thead>
             <tbody>
               <tr *ngFor="let item of artistas">
-                <td class="text-center pointer text-init text-color">{{item.id}}</td>
-                <td class="text-center pointer text-init text-color">{{item.nombre}}</td>
-                <td class="text-center pointer text-init text-color">{{item.biografia}}</td>
-                <td class="text-center pointer text-init text-color">{{item.pais}}</td>
-                <td class="text-center pointer text-init text-color">{{item.generoMusical}}</td>
-                <td class="text-center pointer text-init text-color">{{item.oyentesMensuales}}</td>
-                <td class="text-center">
+                <td class="text-start pointer text-init text-color">{{item.id}}</td>
+                <td class="text-start pointer text-init text-color">{{item.nombre}}</td>
+                <td class="text-start pointer text-init text-color">{{item.biografia}}</td>
+                <td class="text-start pointer text-init text-color">{{item.pais}}</td>
+                <td class="text-start pointer text-init text-color">{{item.generoMusical}}</td>
+                <td class="text-start pointer text-init text-color">{{item.oyentesMensuales | number}}</td>
+                <td class="text-start">
                   <div ngbDropdown class="d-inline-block">
                     <i class="fa-solid fa-gear fa-xl pointer" id="dropdownBasic1" ngbDropdownToggle></i>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                       <button ngbDropdownItem>Ver Más</button>
                       <button ngbDropdownItem>Editar Información</button>
-                      <button ngbDropdownItem>Descuento personalizado</button>
-                      <button ngbDropdownItem>Vendidos</button>
-                      <button ngbDropdownItem>Activar</button>
-                      <button ngbDropdownItem>Desactivar</button>
+                      <button ngbDropdownItem>Eliminar</button>
                     </div>
                   </div>
                 </td>

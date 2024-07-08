@@ -32,7 +32,6 @@ export class CancionesListComponent implements AfterViewInit, OnDestroy, OnInit 
  
   ngOnInit(): void {
     this.callHttpService();
-    this.dtOptions = FormatDataTableGlobal();
   }
 
   async callHttpService(){
@@ -43,6 +42,8 @@ export class CancionesListComponent implements AfterViewInit, OnDestroy, OnInit 
       console.log(cancionesLocal);
       this.canciones = cancionesLocal;
       this.loading = false;
+      this.dtOptions = FormatDataTableGlobal();
+      this.rerender();
     } catch (error) {
       this.loading = false;
       this.error=true;

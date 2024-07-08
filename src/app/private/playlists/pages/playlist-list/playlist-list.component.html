@@ -52,19 +52,19 @@
           <ng-container *ngIf="playlists.length !=0">
             <thead>
               <tr>
-                <th class="text-color text-center">Id</th>
-                <th class="text-color text-center">Nombre</th>
-                <th class="text-color text-center">Canciones</th>
-                <th class="text-color text-center">Fecha creación</th>
-                <th class="text-color text-center">Opción</th>
+                <th class="text-color text-start">Id</th>
+                <th class="text-color text-start">Nombre</th>
+                <th class="text-color text-start">Canciones</th>
+                <th class="text-color text-start">Fecha creación</th>
+                <th class="text-color text-start">Opciones</th>
             </thead>
             <tbody>
               <tr *ngFor="let item of playlists">
-                <td class="text-center pointer text-init text-color">{{item.id}}</td>
-                <td class="text-center pointer text-init text-color">{{item.nombre}}</td>
-                <td class="text-center pointer text-init text-color">{{item.canciones.length}}</td>
-                <td class="text-center pointer text-init text-color">{{item.fechaCreacion}}</td>
-                <td class="text-center">
+                <td class="text-start pointer text-init text-color">{{item.id}}</td>
+                <td class="text-start pointer text-init text-color">{{item.nombre}}</td>
+                <td class="text-start pointer text-init text-color">{{item.canciones.length}}</td>
+                <td class="text-start pointer text-init text-color">{{item.fechaCreacion | date}}</td>
+                <td class="text-start">
                   <div ngbDropdown class="d-inline-block">
                     <i class="fa-solid fa-gear fa-xl pointer" id="dropdownBasic1" ngbDropdownToggle></i>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">

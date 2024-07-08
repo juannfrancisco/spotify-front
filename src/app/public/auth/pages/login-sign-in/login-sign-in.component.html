@@ -1,12 +1,12 @@
 <div class="form-signin text-center mt-5">
-    <div class="card border-0 rounded-3">
+    <div class="card border-0 rounded-3" style="background: #242939;">
         <div class="card-body">
             <form  
             [formGroup]="Singform"
             class="needs-validation">
 
-            <img class="mb-4" src="./assets/img/logo-color.png" alt="" width="220" height="57">
-            <h5 class="h5 mb-5 fw-normal">Login Sing-in</h5>
+            <img class="mb-4" src="./assets/img/logo.svg" alt="" width="220" height="57">
+            <h5 class="h5 mb-5 fw-normal text-light">Iniciar sesión</h5>
         
             <div class="form-floating">
                 <input required type="email" class="form-control" formControlName="email" placeholder="name@example.com">
@@ -24,13 +24,18 @@
             </div>
         
             <div class="checkbox mb-3">
-                <label>
+                <label class="text-light">
                 <input type="checkbox" value="remember-me"> Acuérdate de mí
                 </label>
             </div>
             <button type="button" class="w-100  btn btn-lightning  mb-2 mr-2" (click)="formSubmit()">Iniciar sesión</button>
-            <p class="mt-5 mb-3 text-muted">Zenta 2023</p>
+            <p class="mt-5 mb-3 text-light">Juan Francisco 2024</p>
             </form>
         </div>
     </div>
   </div>
+
+  <div class="text-center text-muted mt-4">
+  <div>email : <i>admin@admin.cl</i></div>
+  <div>password : <i>admin</i></div>
+</div>
