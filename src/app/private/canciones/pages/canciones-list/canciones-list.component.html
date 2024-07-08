@@ -19,7 +19,7 @@
     <div class="card-title mb-1 p-3">
       <div class="row">
         <div class="col">
-          <h5>Listado canciones</h5>
+          <h5>Listado de canciones</h5>
         </div>
         <div class="col text-end">
           <a class="btn btn-lightning">
@@ -47,7 +47,7 @@
             </div>
           </ng-container>
           <ng-container *ngIf="canciones.length !=0">
-            <thead>
+            <thead class="bg-primary-subtle">
               <tr>
                 <th class="text-color text-start">Id</th>
                 <th class="text-color text-start">Nombre</th>
@@ -63,9 +63,11 @@
                 <td class="text-start pointer text-init text-color">{{item.id}}</td>
                 <td class="text-start pointer text-init text-color">
                   <label>{{item.nombre}}</label>
-                  <div><a routerLink="/maintainer/artistas/{{item.artista.id}}">{{item.artista.nombre}}</a></div>
+                  <div><a class="link-secondary" routerLink="/maintainer/artistas/{{item.artista.id}}">{{item.artista.nombre}}</a></div>
                 </td>
-                <td class="text-start pointer text-init text-color">{{item.album}}</td>
+                <td class="text-start pointer text-init text-color">
+                  <a class="link-secondary">{{item.album}}</a>
+                </td>
                 <td class="text-start pointer text-init text-color">{{item.generoMusical}}</td>
                 <td class="text-start pointer text-init text-color">{{item.reproducciones}}</td>
                 <td class="text-start pointer text-init text-color">{{item.duracion}}</td>
