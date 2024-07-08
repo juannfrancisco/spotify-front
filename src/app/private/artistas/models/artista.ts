@@ -5,4 +5,6 @@ export interface Artista {
     pais:string;
     generoMusical:string[];
     oyentesMensuales:number;
+    tipo:string;
+    verificado:boolean;
 }

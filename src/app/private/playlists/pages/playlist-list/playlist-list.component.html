@@ -7,21 +7,24 @@
           <li class="breadcrumb-item">
             <a href="/maintainer">Home</a>
           </li>
-          <li class="breadcrumb-item active">Vacantes</li>
+          <li class="breadcrumb-item active">Playlists</li>
           </ol>
         </nav>
       </div>
+      <div class="progress-bar">
+        <div class="progress-bar-value" [hidden]="!loading"></div>
+    </div>
   </div>
   <div class="card border-0 rounded-0">
     <div class="card-title mb-1 p-3">
       <div class="row">
         <div class="col">
-          <h5>Listado producto</h5>
+          <h5>Listado Playlists</h5>
         </div>
         <div class="col text-end">
           <a class="btn btn-lightning">
             <i class="fa-solid fa-plus fs-6"></i>
-            Crear producto
+            Crear Playlist
           </a>
         </div>
       </div>
@@ -30,49 +33,44 @@
       <div class="backgroundTable">
         <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="componente-importantes
           componente-importantes-from-popup">
-          <ng-container *ngIf="listViewProjectDto.length==0">
+          
+          <ng-container *ngIf="!error && playlists.length==0">
             <div class="text-center text-color">
               <h2 class="text-color px-5 mt-5">Sin Registro</h2>
               <i class="fa-solid fa-face-sad-cry 2fa-5x my-3"></i>
             </div>
           </ng-container>
-          <ng-container *ngIf="listViewProjectDto.length !=0">
+
+          <ng-container *ngIf="!loading && error">
+            <div class="text-center text-color">
+              <h2 class="text-color px-5 mt-5">Ocurrio un error</h2>
+              <i class="fa-solid fa-face-sad-cry 2fa-5x my-3"></i>
+            </div>
+          </ng-container>
+
+
+          <ng-container *ngIf="playlists.length !=0">
             <thead>
               <tr>
-                <th class="text-color text-center">Fecha creacion</th>
-                <th class="text-color text-center">Nombre producto</th>
-                <th class="text-color text-center">Proveedor</th>
-                <th class="text-color text-center">Categoria</th>
-                <th class="text-color text-center">Sub categoria</th>
-                <th class="text-color text-center">stock</th>
-                <th class="text-color text-center">Precio</th>
-                <th class="text-color text-center">Acumula puntos</th>
-                <th class="text-color text-center">Canje en puntos</th>
-                <th class="text-color text-center">Descuento</th>
-                <th class="text-color text-center">Opcion</th>
+                <th class="text-color text-center">Id</th>
+                <th class="text-color text-center">Nombre</th>
+                <th class="text-color text-center">Canciones</th>
+                <th class="text-color text-center">Fecha creación</th>
+                <th class="text-color text-center">Opción</th>
             </thead>
             <tbody>
-              <tr *ngFor="let item of listViewProjectDto">
-                <td class="text-center pointer text-init text-color">{{item.data1}}</td>
-                <td class="text-center pointer text-init text-color">{{item.data2}}</td>
-                <td class="text-center pointer text-init text-color">{{item.data3}}</td>
-                <td class="text-center pointer text-init text-color">{{item.data4}}</td>
-                <td class="text-center pointer text-init text-color">{{item.data5}}</td>
-                <td class="text-center pointer text-init text-color">{{item.data6}}</td>
-                <td class="text-center pointer text-init text-color">{{item.data7}}</td>
-                <td class="text-center pointer text-init text-color">{{item.data8}}</td>
-                <td class="text-center pointer text-init text-color">{{item.data9}}</td>
-                <td class="text-center pointer text-init text-color">{{item.data10}}</td>
+              <tr *ngFor="let item of playlists">
+                <td class="text-center pointer text-init text-color">{{item.id}}</td>
+                <td class="text-center pointer text-init text-color">{{item.nombre}}</td>
+                <td class="text-center pointer text-init text-color">{{item.canciones.length}}</td>
+                <td class="text-center pointer text-init text-color">{{item.fechaCreacion}}</td>
                 <td class="text-center">
                   <div ngbDropdown class="d-inline-block">
                     <i class="fa-solid fa-gear fa-xl pointer" id="dropdownBasic1" ngbDropdownToggle></i>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                       <button ngbDropdownItem>Ver Más</button>
                       <button ngbDropdownItem>Editar Información</button>
-                      <button ngbDropdownItem>Descuento personalizado</button>
-                      <button ngbDropdownItem>Vendidos</button>
-                      <button ngbDropdownItem>Activar</button>
-                      <button ngbDropdownItem>Desactivar</button>
+                      <button ngbDropdownItem>Eliminar</button>
                     </div>
                   </div>
                 </td>

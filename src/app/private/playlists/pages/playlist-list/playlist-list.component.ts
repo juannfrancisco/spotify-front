@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { FormatDataTableGlobal } from 'src/app/shared/util/datatables-option/formatDataTable';
 import { DataTableDirective } from 'angular-datatables';
+import { Playlist } from '../../models/playlist';
+import { PlaylistsService } from '../../services/playlists.service';
 
 @Component({
   selector: 'app-playlist-list',
@@ -12,6 +13,9 @@ import { DataTableDirective } from 'angular-datatables';
 export class PlaylistListComponent implements AfterViewInit, OnDestroy, OnInit {
  
   //declaracion importante para datatable
+  playlists:Playlist[]=[];
+  loading:boolean=false;
+  error:boolean=false;
   @ViewChildren(DataTableDirective)
   datatableElements: QueryList<DataTableDirective>;
   dtTrigger: Subject<any> = new Subject();
@@ -20,44 +24,30 @@ export class PlaylistListComponent implements AfterViewInit, OnDestroy, OnInit {
 
   listViewProjectDto: any[];
 
-  constructor(private spinner: NgxSpinnerService,
-
+  constructor(
+    private service:PlaylistsService
   ) 
   { }
  
  
   ngOnInit(): void {
-
-
-    this.listViewProjectDto = [];
+    this.callHttpService();
     this.dtOptions = FormatDataTableGlobal();
-    
-    this.calledService();
   }
 
-  calledService(){
-
-    this.spinner.show();
-    for(var i = 1; i < 50; i++){
-      let info = {
-        data1:"20/03/2022",
-        data2:"Nube GCP",
-        data3:"Google",
-        data4:"Nube",
-        data5:"--",
-        data6:20,
-        data7:"20 UF",
-        data8:"15",
-        data9:"4000",
-        data10:"SI"
-      };
-      this.listViewProjectDto.push(info);
+  async callHttpService(){
+    this.loading = true;
+    this.error=false;
+    try {
+      let playlistsLocal = await this.service.getAlls().toPromise();
+      this.playlists = playlistsLocal;
+      this.loading = false;
+    } catch (error) {
+      this.loading = false;
+      this.error=true;
     }
-    this.spinner.hide();
-   
-
- 
   }
+
   //importante para datatable
   ngAfterViewInit(): void {
     this.dtTrigger.next(0);
