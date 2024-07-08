@@ -1,0 +1,101 @@
+<div class="mt-0 m-4">
+  <div class="card border-0 rounded-0 h-100 mb-4">
+    <div class="card-body">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a routerLink="/maintainer">Home</a>
+          </li>
+          <li class="breadcrumb-item active">
+            <a routerLink="/maintainer/artistas/list">Artistas</a>
+          </li>
+          <li class="breadcrumb-item active">Nuevo</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-bar-value" [hidden]="!loading"></div>
+  </div>
+  </div>
+
+  <div class="card border-0 rounded-0 h-100 mb-4">
+    <div class="card-title mb-1 p-3">
+      <div>
+        <h5>Crear artista</h5>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="p-3">
+        <form action="" method="post" [formGroup]="categoryForm" class="needs-validation row mx-5">
+
+          <div class="col-md-4 my-2">
+            <label for="inpuName" class="form-label text-color">Nombre</label>
+            <input required type="text" class="form-control custom-outline-input" formControlName="nombre"
+              placeholder="Ingrese información" aria-label="nombre">
+          </div>
+
+          <div class="col-md-4 my-2">
+            <label for="inpuName" class="form-label text-color">Biografía</label>
+            <input required type="text" class="form-control custom-outline-input" formControlName="biografia"
+              placeholder="Ingrese información" aria-label="biografia">
+          </div>
+
+          <div class="col-md-4 my-2">
+            <label for="inputCategory" class="form-label text-color">País</label>
+            <select required class="form-control custom-outline-input" formControlName="pais">
+              <option class="text-white" value="" disabled selected>País</option>
+              <option selected class="text-white" value="Argentina">Argentina</option>
+              <option selected class="text-white" value="Chile">Chile</option>              
+              <option selected class="text-white" value="Colombia">Colombia</option>
+              <option selected class="text-white" value="Estados Unidos">Estados Unidos</option>
+              <option selected class="text-white" value="México">México</option>
+              <option selected class="text-white" value="Venezuela">Venezuela</option>
+            </select>
+            <div class="invalid-feedback">
+              Seleccione un país.
+            </div>
+          </div>
+          <div class="col-md-4 my-2">
+            <label for="inputMultiSelect" class="form-label text-color">Género musical</label>
+            <ng-multiselect-dropdown id="generoMusical" formControlName="generoMusical" [placeholder]="'Genero Musical'"
+              [settings]="dropdownSettings" [data]="filterProjectInfoDto" (onSelect)="onItemSelect($event)">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="col-md-4 my-2">
+            <label for="inpuName" class="form-label text-color">Oyentes Mensuales</label>
+            <input required type="number" class="form-control custom-outline-input" formControlName="oyentesMensuales"
+              placeholder="Ingrese información" aria-label="biografia">
+          </div>
+          <div class="col-md-4 my-2">
+            <label for="inputCategory" class="form-label text-color">Tipo</label>
+            <select required class="form-control custom-outline-input" formControlName="tipo">
+              <option class="text-white" value="" disabled selected>Seleccione...</option>
+              <option selected class="text-white" value="Solista">Solista</option>
+              <option selected class="text-white" value="Banda">Banda</option>
+              <option selected class="text-white" value="Orquesta">Orquesta</option>
+              <option selected class="text-white" value="Otro">Otro</option>
+            </select>
+            <div class="invalid-feedback">
+              Seleccione un Tipo de artista.
+            </div>
+          </div>
+          <div class="col-md-4 my-2">
+            <label for="inputCategory" class="form-label text-color">Verificado</label>
+            <select required class="form-control custom-outline-input" formControlName="verificado">
+              <option class="text-white" value="" disabled selected>Seleccione...</option>
+              <option selected class="text-white" value="Si">Si</option>
+              <option selected class="text-white" value="No">No</option>
+            </select>
+            <div class="invalid-feedback">
+              Seleccione verficado.
+            </div>
+          </div>
+
+          <div class="col-12 mt-3 d-flex justify-content-center">
+            <button class="btn btn-lightning" (click)="formSubmit()">Confirmar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
