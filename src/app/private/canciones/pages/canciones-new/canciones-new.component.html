@@ -1,0 +1,75 @@
+<div class="mt-0 m-4">
+  <div class="card border-0 rounded-0 h-100 mb-4">
+    <div class="card-body">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a routerLink="/maintainer">Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a routerLink="/maintainer/canciones/list">Canciones</a>
+          </li>
+          <li class="breadcrumb-item active">Nuevo</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-bar-value" [hidden]="!loading"></div>
+    </div>
+  </div>
+
+  <div class="card border-0 rounded-0 h-100 mb-4">
+    <div class="card-title mb-1 p-3">
+      <div>
+        <h5>Crear canción</h5>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="p-3">
+        <form action="" method="post" [formGroup]="categoryForm" class="needs-validation row mx-5">
+          <div class="col-md-4 my-2">
+            <label for="inpuName" class="form-label text-color">Nombre</label>
+            <input required type="text" class="form-control custom-outline-input" formControlName="nombre"
+              placeholder="Ingrese información" aria-label="Nombre">
+          </div>
+          <div class="col-md-4 my-2">
+            <label for="inpuName" class="form-label text-color">Duración (segundos)</label>
+            <input required type="number" class="form-control custom-outline-input" formControlName="duracion"
+              placeholder="Ingrese información" aria-label="Duración (segundos)">
+          </div>
+          <div class="col-md-4 my-2">
+            <label for="inpuName" class="form-label text-color">Reproducciones</label>
+            <input required type="number" class="form-control custom-outline-input" formControlName="reproducciones"
+              placeholder="Ingrese información" aria-label="Reproducciones">
+          </div>
+          <div class="col-md-4 my-2">
+            <label for="inputCategory" class="form-label text-color">Artista</label>
+            <select required class="form-control custom-outline-input" formControlName="artista">
+              <option class="text-white" value="" disabled selected>Seleccione...</option>
+              <option selected class="text-white" value="Solista">Solista</option>
+            </select>
+            <div class="invalid-feedback">
+              Seleccione un Tipo de artista.
+            </div>
+          </div>
+          <div class="col-md-4 my-2">
+            <label for="inpuName" class="form-label text-color">Álbum</label>
+            <input required type="text" class="form-control custom-outline-input" formControlName="album"
+              placeholder="Ingrese información" aria-label="Álbum">
+          </div>
+
+          <div class="col-md-4 my-2">
+            <label for="inputMultiSelect" class="form-label text-color">Género musical</label>
+            <ng-multiselect-dropdown id="generoMusical" formControlName="generoMusical" [placeholder]="'Genero Musical'"
+              [settings]="dropdownSettings" [data]="filterProjectInfoDto" (onSelect)="onItemSelect($event)">
+            </ng-multiselect-dropdown>
+          </div>
+
+          <div class="col-12 mt-3 d-flex justify-content-center">
+            <button class="btn btn-lightning" (click)="formSubmit()">Confirmar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
