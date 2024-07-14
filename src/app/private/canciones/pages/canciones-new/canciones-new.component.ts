@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DropdownSettingsStado } from 'src/app/shared/util/multiselect-option/multiselect-option';
 import { Cancion } from '../../models/cancion';
+import { CancionService } from '../../services/cancion.service';
+import { ArtistasService } from 'src/app/private/artistas/services/artistas.service';
+import { Artista } from 'src/app/private/artistas/models/artista';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-canciones-new',
@@ -10,6 +14,7 @@ import { Cancion } from '../../models/cancion';
 })
 export class CancionesNewComponent implements OnInit {
 
+  artistas:Artista[]=[];
   cancion:Cancion;
   loading:boolean=false;
   error:boolean=false;
@@ -18,11 +23,14 @@ export class CancionesNewComponent implements OnInit {
   dropdownSettings = {};
   filterProjectInfoDto: any;
 
-  constructor(private fb: FormBuilder) {
-
+  constructor(private fb: FormBuilder, 
+    private service:CancionService, 
+    private artistasService:ArtistasService,
+    private router: Router) {
    }
 
   ngOnInit(): void {
+    this.obtenerArtistas();
     this.filterProjectInfoDto = [];
     this.dropdownSettings = DropdownSettingsStado();
     this.categoryForm = this.fb.group(
@@ -37,21 +45,10 @@ export class CancionesNewComponent implements OnInit {
       }
     );
 
-    let info = {
-      id:1,
-      name:"Nube GCP",
-    };
-    this.filterProjectInfoDto.push(info);
-    info = {
-      id:2,
-      name:"Nube AMAZON",
-    };
-    this.filterProjectInfoDto.push(info);
-    info = {
-      id:3,
-      name:"Nube AZURE",
-    };
-    this.filterProjectInfoDto.push(info);
+    this.filterProjectInfoDto.push("Pop");
+    this.filterProjectInfoDto.push('Rock');
+    this.filterProjectInfoDto.push("Reggae");
+    this.filterProjectInfoDto.push("Rap");
   }
 
   formSubmit(){
@@ -60,7 +57,37 @@ export class CancionesNewComponent implements OnInit {
     if (!form.checkValidity()) {
         form.classList.add('was-validated');
     }else{
-    
+      this.cancion = this.categoryForm.value;
+      this.callService(this.cancion);
+      this.router.navigate(['/maintainer/canciones/list']);
+      console.log(this.cancion);
+    }
+  }
+
+  async obtenerArtistas(){
+    this.loading = true;
+    this.error=false;
+    try {
+      let artistasLocal = await this.artistasService.getAlls().toPromise();
+      this.artistas = artistasLocal;
+      this.loading = false;
+    } catch (error) {
+      this.loading = false;
+      this.error=true;
+    }
+  }
+
+  async callService( cancion:Cancion){
+    this.loading = true;
+    this.error = false;
+    try{
+      let result = await this.service.save(cancion).toPromise();
+      console.log(result);
+      this.loading = false;
+    }catch(error){
+      console.log(error);
+      this.loading = false;
+      this.error = true;
     }
   }
 

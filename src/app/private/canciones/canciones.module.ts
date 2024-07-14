@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { CancionesListComponent } from './pages/canciones-list/canciones-list.component';
 import { CancionesNewComponent } from './pages/canciones-new/canciones-new.component';
+import { ArtistasService } from '../artistas/services/artistas.service';
 @NgModule({
   declarations: [
     CancionesListComponent,
