@@ -13,4 +13,9 @@ export class CancionService {
   getAlls(){
     return this.httpClient.get<Cancion[]>(`${environment.apiEndpoint}/canciones`);
   }
+
+  save(cancion: Cancion){
+    return this.httpClient.post(`${environment.apiEndpoint}/canciones`, cancion);
+  }
+  
 }
