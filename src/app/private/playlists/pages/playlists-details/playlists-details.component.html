@@ -18,22 +18,32 @@
   </div>
 
 
-  <div class="card border-0 rounded-0" [hidden]="loading">
+  <div class="card border-0 rounded-0"  *ngIf="playlist">
     <div class="card-title mb-0 p-3 text-light" style="background-color: #282f48;border-bottom: 1px solid #282f48;">
       <div class="row">
         <div class="col">
           <img src="assets/img/playlist.png" class="img-fluid rounded" alt="">
         </div>
-        <div class="col-11">
+        <div class="col-10">
           <span class="text-muted">Playlist</span>
           <h2>{{playlist.nombre}}</h2>
           <span class="fw-bolder"> Usuario </span>
           <span> {{playlist.canciones.length}} canciones </span>
           <span> {{duracionTotal}}</span>
         </div>
+        <div class="col text-end">
+          <div ngbDropdown class="d-inline-block">
+            <i class="fa-solid fa-gear fa-xl pointer" id="dropdownBasic1" ngbDropdownToggle></i>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem>Agregar canción</button>
+              <button ngbDropdownItem>Editar Información</button>
+              <button ngbDropdownItem>Eliminar</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="card-body" style="padding:0px;">
-      <app-canciones-table [canciones]="playlist.canciones" [loading]="loading" [error]="error"></app-canciones-table>
+      <app-canciones-table [canciones]="playlist.canciones" [playlists]="playlists" [loading]="loading" [error]="error"></app-canciones-table>
     </div>
   </div>

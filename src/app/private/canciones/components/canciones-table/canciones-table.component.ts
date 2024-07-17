@@ -3,22 +3,27 @@ import { Cancion } from '../../models/cancion';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { FormatDataTableGlobal } from 'src/app/shared/util/datatables-option/formatDataTable';
+import { Playlist } from 'src/app/private/playlists/models/playlist';
+import { PlaylistsService } from 'src/app/private/playlists/services/playlists.service';
 
 @Component({
   selector: 'app-canciones-table',
   templateUrl: './canciones-table.component.html',
   styleUrls: ['./canciones-table.component.scss']
 })
-export class CancionesTableComponent implements AfterViewInit, OnDestroy, OnInit{
+export class CancionesTableComponent implements AfterViewInit, OnDestroy, OnInit {
 
 
-  @Input() loading:boolean=false;
-  @Input() error:boolean=false;
-  @Input() canciones:Cancion[]=[];
+  @Input() loading: boolean = false;
+  @Input() error: boolean = false;
+  @Input() canciones: Cancion[] = [];
+  @Input() playlists: Playlist[] = [];
   @ViewChildren(DataTableDirective)
   datatableElements: QueryList<DataTableDirective>;
   dtTrigger: Subject<any> = new Subject();
-  dtOptions:any;
+  dtOptions: any;
+
+  constructor( private servicePlaylists:PlaylistsService ) { }
 
 
   ngOnInit(): void {
@@ -27,9 +32,9 @@ export class CancionesTableComponent implements AfterViewInit, OnDestroy, OnInit
       'copy'
     ];
     options.language.lengthMenu = 'Mostrar _MENU_ canciones';
-    options.language.info= 'Mostrar _START_ de _END_ de _TOTAL_ canciones';
-    options.language.search= '';
-    options.language.searchPlaceholder= 'Buscar...';
+    options.language.info = 'Mostrar _START_ de _END_ de _TOTAL_ canciones';
+    options.language.search = '';
+    options.language.searchPlaceholder = 'Buscar...';
 
     this.dtOptions = options;
   }
@@ -51,6 +56,15 @@ export class CancionesTableComponent implements AfterViewInit, OnDestroy, OnInit
         this.dtTrigger.next(0);
       });
     });
-}
+  }
+
+  addCancionToPlaylist(cancion: Cancion, playlist: Playlist) {
+    console.log('Cancion:', cancion);
+    console.log('Playlist:', playlist);
+
+    this.servicePlaylists.addCancionToPlaylist(cancion, playlist).subscribe( (res) => { 
+      console.log('Respuesta:', res);
+    } );
+  }
 
 }

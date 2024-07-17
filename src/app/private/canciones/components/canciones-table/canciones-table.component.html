@@ -44,9 +44,16 @@
                   <div ngbDropdown class="d-inline-block">
                     <i class="fa-solid fa-gear fa-xl pointer" id="dropdownBasic1" ngbDropdownToggle></i>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <div ngbDropdown class="d-inline-block" placement="top-end">
+                        <button ngbDropdownToggle><i class="fa fa-plus"></i> Agregar a playlist</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                          <button ngbDropdownItem *ngFor="let playlist of playlists" (click)="addCancionToPlaylist(item, playlist)"> {{playlist.nombre}}</button>
+                        </div>
+                      </div>
                       <button ngbDropdownItem>Ver Más</button>
                       <button ngbDropdownItem>Editar Información</button>
-                      <button ngbDropdownItem>Eliminar</button>
+                      <div class="dropdown-divider"></div>
+                      <button ngbDropdownItem><i class="fa fa-trash"></i> Eliminar</button>
                     </div>
                   </div>
                 </td>

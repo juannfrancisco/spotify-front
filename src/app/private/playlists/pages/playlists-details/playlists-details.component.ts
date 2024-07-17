@@ -17,6 +17,7 @@ export class PlaylistsDetailsComponent implements AfterViewInit, OnDestroy, OnIn
   //declaracion importante para datatable
   loading: boolean = false;
   error: boolean = false;
+  playlists: Playlist[];
   playlist: Playlist;
   duracionTotal:string = "";
   id: string;
@@ -57,12 +58,26 @@ export class PlaylistsDetailsComponent implements AfterViewInit, OnDestroy, OnIn
       let minutos = Math.floor((duracionTotalSeg % 3600) / 60);
       let segundos = duracionTotalSeg % 60;
       this.duracionTotal = `${horas}h ${minutos}m ${segundos}s`;
+      this.getPlaylists();
     }, (error) => {
       this.error = true
     }, () => {
       this.loading = false
     });
   }
+
+
+  getPlaylists() {
+
+    this.service.getAlls().subscribe((data) => {
+      this.playlists = data;
+    }, (error) => {
+      this.error = true
+    }, () => {
+      this.loading = false
+    });
+  }
+
 
   calledService() {
 

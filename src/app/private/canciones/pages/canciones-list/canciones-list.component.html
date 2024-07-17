@@ -31,7 +31,7 @@
     </div>
     <div class="card-body" style="padding:0px;">
       <ng-container *ngIf="canciones.length !=0">
-        <app-canciones-table [canciones]="canciones" [loading]="loading" [error]="error"></app-canciones-table>
+        <app-canciones-table [canciones]="canciones" [playlists]="playlists" [loading]="loading" [error]="error"></app-canciones-table>
       </ng-container>
     </div>
 </div>

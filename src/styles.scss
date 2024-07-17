@@ -22,6 +22,14 @@ $hamburger-hover-opacity       : 0.7 !default;
 
 @import './assets/lightning-admin';
 
+
+.dropdown-divider{
+    border-top: 1px solid rgba(174, 174, 174, 0.125) !important;
+
+}
+
+
+
 .progress-bar {
     height: 4px;
     background-color: rgba(5, 114, 206, 0.2);
