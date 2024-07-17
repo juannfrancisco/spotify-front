@@ -30,62 +30,9 @@
       </div>
     </div>
     <div class="card-body" style="padding:0px;">
-      <div class="backgroundTable">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="componente-importantes
-          componente-importantes-from-popup">
-          <ng-container *ngIf="!error && canciones.length==0">
-            <div class="text-center text-color">
-              <h2 class="text-color px-5 mt-5">Sin Registro</h2>
-              <i class="fa-solid fa-face-sad-cry 2fa-5x my-3"></i>
-            </div>
-          </ng-container>
-
-          <ng-container *ngIf="!loading && error">
-            <div class="text-center text-color">
-              <h2 class="text-color px-5 mt-5">Ocurrio un error</h2>
-              <i class="fa-solid fa-face-sad-cry 2fa-5x my-3"></i>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="canciones.length !=0">
-            <thead class="bg-primary-subtle">
-              <tr>
-                <th class="text-color text-start">Id</th>
-                <th class="text-color text-start">Nombre</th>
-                <th class="text-color text-start">Álbum</th>
-                <th class="text-color text-start">Género musical</th>
-                <th class="text-color text-start">Reproducciones</th>
-                <th class="text-color text-start">Duración</th>
-                
-                <th class="text-color text-start">Opciones</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of canciones">
-                <td class="text-start pointer text-init text-color">{{item.id}}</td>
-                <td class="text-start pointer text-init text-color">
-                  <label>{{item.nombre}}</label>
-                  <div><a class="link-secondary" routerLink="/maintainer/artistas/{{item.artista.id}}">{{item.artista.nombre}}</a></div>
-                </td>
-                <td class="text-start pointer text-init text-color">
-                  <a class="link-secondary">{{item.album}}</a>
-                </td>
-                <td class="text-start pointer text-init text-color">{{item.generoMusical}}</td>
-                <td class="text-start pointer text-init text-color">{{item.reproducciones}}</td>
-                <td class="text-start pointer text-init text-color">{{item.duracion}}</td>
-                
-                <td class="text-start">
-                  <div ngbDropdown class="d-inline-block">
-                    <i class="fa-solid fa-gear fa-xl pointer" id="dropdownBasic1" ngbDropdownToggle></i>
-                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                      <button ngbDropdownItem>Ver Más</button>
-                      <button ngbDropdownItem>Editar Información</button>
-                      <button ngbDropdownItem>Eliminar</button>
-                    </div>
-                  </div>
-                </td>
-            </tbody>
-          </ng-container>
-        </table>
-      </div>
+      <ng-container *ngIf="canciones.length !=0">
+        <app-canciones-table [canciones]="canciones" [loading]="loading" [error]="error"></app-canciones-table>
+      </ng-container>
     </div>
 </div>
 

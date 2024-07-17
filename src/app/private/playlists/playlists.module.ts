@@ -7,10 +7,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PlaylistListComponent } from './pages/playlist-list/playlist-list.component';
 import { PlaylistsNewComponent } from './pages/playlists-new/playlists-new.component';
+import { PlaylistsDetailsComponent } from './pages/playlists-details/playlists-details.component';
+import { CancionesModule } from '../canciones/canciones.module';
 @NgModule({
   declarations: [
     PlaylistListComponent,
-    PlaylistsNewComponent
+    PlaylistsNewComponent,
+    PlaylistsDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -18,6 +21,7 @@ import { PlaylistsNewComponent } from './pages/playlists-new/playlists-new.compo
     PlaylistsRoutingModule,
     DataTablesModule.forRoot(),
     ReactiveFormsModule,
+    CancionesModule,
     NgMultiSelectDropDownModule.forRoot(),
   ]
 })

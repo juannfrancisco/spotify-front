@@ -45,10 +45,10 @@ export class CancionesNewComponent implements OnInit {
       }
     );
 
-    this.filterProjectInfoDto.push("Pop");
+    this.filterProjectInfoDto.push('Pop');
     this.filterProjectInfoDto.push('Rock');
-    this.filterProjectInfoDto.push("Reggae");
-    this.filterProjectInfoDto.push("Rap");
+    this.filterProjectInfoDto.push('Reggae');
+    this.filterProjectInfoDto.push('Rap');
   }
 
   formSubmit(){

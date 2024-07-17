@@ -10,19 +10,13 @@ import { CancionService } from '../../services/cancion.service';
   templateUrl: './canciones-list.component.html',
   styleUrls: ['./canciones-list.component.scss']
 })
-export class CancionesListComponent implements AfterViewInit, OnDestroy, OnInit {
+export class CancionesListComponent implements OnInit {
  
   //declaracion importante para datatable
   canciones:Cancion[]=[];
   loading:boolean=false;
   error:boolean=false;
-  @ViewChildren(DataTableDirective)
-  datatableElements: QueryList<DataTableDirective>;
-  dtTrigger: Subject<any> = new Subject();
-  dtOptions = FormatDataTableGlobal();
   //Fin declaracion
-
-  listViewProjectDto: any[];
 
   constructor(
     private service:CancionService
@@ -42,34 +36,13 @@ export class CancionesListComponent implements AfterViewInit, OnDestroy, OnInit 
       console.log(cancionesLocal);
       this.canciones = cancionesLocal;
       this.loading = false;
-      this.dtOptions = FormatDataTableGlobal();
-      this.rerender();
     } catch (error) {
       this.loading = false;
       this.error=true;
     }
   }
   
-  //importante para datatable
-  ngAfterViewInit(): void {
-    this.dtTrigger.next(0);
 
-  }
-
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
-
-  }
-
-  rerender(): void {
-      this.datatableElements.forEach((dtElement: DataTableDirective) => {
-        dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-          dtInstance.destroy();
-          this.dtTrigger.next(0);
-        });
-      });
-  }
-  
   //Fin
 
 }

@@ -94,6 +94,7 @@ table.dataTable thead th {
 }
 
 .dataTables_wrapper .dataTables_paginate {
+    min-height: 100px;
     float: center !important;
     text-align: center !important;
     width: 100% !important;
@@ -116,12 +117,18 @@ table.dataTable thead th {
   line-height: 1.08;
   letter-spacing: normal;
   text-align: left;
-  background: #f2f3f8 !important;
-  color: #4e4c68 !important;
-  border: 1px solid #2c2b3a !important;
+  background: transparent !important;
+  color: #aaa !important;
+  border: 1px solid #aaa !important;
   padding: 10px;
   width: 220.1px;
   height: 40.1px;
+}
+.dataTables_filter input,
+.inputFilter:hover:focus:active{
+  border: 1px solid #aaa !important;
+  outline: none;
+
 }
 
 .dataTables_length label,

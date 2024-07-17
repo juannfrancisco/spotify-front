@@ -8,10 +8,12 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { CancionesListComponent } from './pages/canciones-list/canciones-list.component';
 import { CancionesNewComponent } from './pages/canciones-new/canciones-new.component';
 import { ArtistasService } from '../artistas/services/artistas.service';
+import { CancionesTableComponent } from './components/canciones-table/canciones-table.component';
 @NgModule({
   declarations: [
     CancionesListComponent,
-    CancionesNewComponent
+    CancionesNewComponent,
+    CancionesTableComponent
   ],
   imports: [
     CommonModule,
@@ -20,6 +22,9 @@ import { ArtistasService } from '../artistas/services/artistas.service';
     DataTablesModule.forRoot(),
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
+  ],
+  exports: [
+    CancionesTableComponent
   ]
 })
 export class CancionesModule { }

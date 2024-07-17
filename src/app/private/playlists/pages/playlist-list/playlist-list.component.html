@@ -5,7 +5,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item">
-            <a href="/maintainer">Home</a>
+            <a routerLink="/maintainer">Home</a>
           </li>
           <li class="breadcrumb-item active">Playlists</li>
           </ol>
@@ -22,7 +22,7 @@
           <h5>Mis playlists</h5>
         </div>
         <div class="col text-end">
-          <a class="btn btn-lightning">
+          <a routerLink="/maintainer/playlists/crear" class="btn btn-lightning">
             <i class="fa-solid fa-plus fs-6"></i>
             Crear Playlist
           </a>
@@ -61,14 +61,16 @@
             <tbody>
               <tr *ngFor="let item of playlists">
                 <td class="text-start pointer text-init text-color">{{item.id}}</td>
-                <td class="text-start pointer text-init text-color">{{item.nombre}}</td>
+                <td class="text-start pointer text-init text-color">
+                  <a [routerLink]="['/maintainer', 'playlists', item.id, 'view']">{{item.nombre}}</a>
+                </td>
                 <td class="text-start pointer text-init text-color">{{item.canciones.length}}</td>
                 <td class="text-start pointer text-init text-color">{{item.fechaCreacion | date}}</td>
                 <td class="text-start">
                   <div ngbDropdown class="d-inline-block">
                     <i class="fa-solid fa-gear fa-xl pointer" id="dropdownBasic1" ngbDropdownToggle></i>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                      <button ngbDropdownItem>Ver Más</button>
+                      <a [routerLink]="['/maintainer', 'playlists', item.id, 'view']" ngbDropdownItem>Ver Más</a>
                       <button ngbDropdownItem>Editar Información</button>
                       <button ngbDropdownItem>Eliminar</button>
                     </div>
