@@ -4,6 +4,8 @@ import { FormatDataTableGlobal } from 'src/app/shared/util/datatables-option/for
 import { DataTableDirective } from 'angular-datatables';
 import { ArtistasService } from '../../services/artistas.service';
 import { Artista } from '../../models/artista';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmModalComponent } from 'src/app/shared/components/private/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-artistas-list',
@@ -24,7 +26,8 @@ export class ArtistasListComponent implements AfterViewInit, OnDestroy, OnInit {
 
 
   constructor(
-    private service:ArtistasService
+    private service:ArtistasService,
+    private modalService: NgbModal
   ) 
   { }
  
@@ -68,4 +71,23 @@ export class ArtistasListComponent implements AfterViewInit, OnDestroy, OnInit {
         });
       });
   }
+
+  remove(artista: Artista) {
+    const modalRef =this.modalService.open(ConfirmModalComponent, {ariaLabelledBy: 'modal-basic-title'});
+    modalRef.componentInstance.title = 'Ventana de confirmación';
+    modalRef.componentInstance.message = `¿Está seguro que desea eliminar la playlist "${artista.nombre}"?`;
+    modalRef.result.then((result) => {
+      if(result == 'confirm'){
+        this.removeArtista(artista);
+      }
+    });
+  }
+
+  removeArtista(artista: Artista) {
+    this.service.remove(artista).subscribe(() => {
+      this.callHttpService();
+    });
+  }
+
+
 }

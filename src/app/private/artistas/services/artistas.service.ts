@@ -7,6 +7,7 @@ import { Artista } from '../models/artista';
   providedIn: 'root'
 })
 export class ArtistasService {
+  
   constructor( private httpClient: HttpClient) { }
 
   getAlls(){
@@ -16,6 +17,11 @@ export class ArtistasService {
 
   save(artista: Artista){
     return this.httpClient.post(`${environment.apiEndpoint}/artistas`, artista);
+  }
+
+
+  remove(artista: Artista) {
+    return this.httpClient.delete(`${environment.apiEndpoint}/artistas/${artista.id}`);
   }
   
 

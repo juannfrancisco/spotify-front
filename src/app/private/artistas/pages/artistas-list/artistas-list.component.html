@@ -73,7 +73,8 @@
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                       <button ngbDropdownItem>Ver Más</button>
                       <button ngbDropdownItem>Editar Información</button>
-                      <button ngbDropdownItem>Eliminar</button>
+                      <div class="dropdown-divider"></div>
+                      <button ngbDropdownItem (click)="remove(item)"><i class="fa fa-trash"></i> Eliminar</button>
                     </div>
                   </div>
                 </td>
