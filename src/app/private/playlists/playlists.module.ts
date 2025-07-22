@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PlaylistListComponent } from './pages/playlist-list/playlist-list.component';
 import { PlaylistNewComponent } from './pages/playlist-new/playlist-new.component';
 import { PlaylistDetailComponent } from './pages/playlist-detail/playlist-detail.component';
+import { SharedMaintainerModule } from 'src/app/shared/components/private/shared-maintainer.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { PlaylistDetailComponent } from './pages/playlist-detail/playlist-detail
     NgbModule,
     PlaylistsRoutingModule,
     DataTablesModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedMaintainerModule,
   ]
 })
 export class PlaylistsModule { }

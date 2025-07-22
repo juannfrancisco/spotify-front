@@ -4,6 +4,8 @@ import { FormatDataTableGlobal } from 'src/app/shared/util/datatables-option/for
 import { DataTableDirective } from 'angular-datatables';
 import { ArtistasService } from '../../services/artistas.service';
 import { Artista } from '../../models/artista';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDeleteModalComponent } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal.component';
 
 @Component({
   selector: 'app-artistas-list',
@@ -24,7 +26,8 @@ export class ArtistasListComponent implements AfterViewInit, OnDestroy, OnInit {
 
 
   constructor(
-    private service:ArtistasService
+    private service:ArtistasService,
+    private modalService: NgbModal
   ) 
   { }
  
@@ -67,5 +70,30 @@ export class ArtistasListComponent implements AfterViewInit, OnDestroy, OnInit {
           this.dtTrigger.next(0);
         });
       });
+  }
+
+  confirmarEliminar(artista: Artista): void {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.itemName = artista.nombre;
+    modalRef.componentInstance.itemType = 'artista';
+
+    modalRef.result.then((result) => {
+      if (result === 'confirm') {
+        this.eliminarArtista(artista.id);
+      }
+    }).catch(() => {
+      // Modal dismissed
+    });
+  }
+
+  private async eliminarArtista(id: number): Promise<void> {
+    try {
+      await this.service.delete(id).toPromise();
+      // Refresh the list after successful deletion
+      this.callHttpService();
+    } catch (error) {
+      console.error('Error al eliminar artista:', error);
+      // You might want to show an error message to the user here
+    }
   }
 }

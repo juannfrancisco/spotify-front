@@ -9,6 +9,7 @@ import { ArtistasListComponent } from './pages/artistas-list/artistas-list.compo
 import { ArtistasNewComponent } from './pages/artistas-new/artistas-new.component';
 import { ArtistaDetailComponent } from './pages/artista-detail/artista-detail.component';
 import { ArtistasService } from './services/artistas.service';
+import { SharedMaintainerModule } from 'src/app/shared/components/private/shared-maintainer.module';
 @NgModule({
   declarations: [
     ArtistasListComponent,
@@ -22,6 +23,7 @@ import { ArtistasService } from './services/artistas.service';
     DataTablesModule.forRoot(),
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
+    SharedMaintainerModule,
   ]
 })
 export class ArtistasModule { }

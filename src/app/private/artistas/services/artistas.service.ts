@@ -21,5 +21,8 @@ export class ArtistasService {
     return this.httpClient.post(`${environment.apiEndpoint}/artistas`, artista);
   }
   
+  delete(id: number){
+    return this.httpClient.delete(`${environment.apiEndpoint}/artistas/${id}`);
+  }
 
 }

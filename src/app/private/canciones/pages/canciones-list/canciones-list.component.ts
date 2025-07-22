@@ -4,6 +4,8 @@ import { FormatDataTableGlobal } from 'src/app/shared/util/datatables-option/for
 import { DataTableDirective } from 'angular-datatables';
 import { Cancion } from '../../models/cancion';
 import { CancionService } from '../../services/cancion.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDeleteModalComponent } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal.component';
 
 @Component({
   selector: 'app-canciones-list',
@@ -25,7 +27,8 @@ export class CancionesListComponent implements AfterViewInit, OnDestroy, OnInit 
   listViewProjectDto: any[];
 
   constructor(
-    private service:CancionService
+    private service:CancionService,
+    private modalService: NgbModal
   ) 
   { }
  
@@ -68,6 +71,31 @@ export class CancionesListComponent implements AfterViewInit, OnDestroy, OnInit 
           this.dtTrigger.next(0);
         });
       });
+  }
+
+  confirmarEliminar(cancion: Cancion): void {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.itemName = cancion.nombre;
+    modalRef.componentInstance.itemType = 'cancion';
+
+    modalRef.result.then((result) => {
+      if (result === 'confirm') {
+        this.eliminarCancion(cancion.id);
+      }
+    }).catch(() => {
+      // Modal dismissed
+    });
+  }
+
+  private async eliminarCancion(id: number): Promise<void> {
+    try {
+      await this.service.delete(id).toPromise();
+      // Refresh the list after successful deletion
+      this.callHttpService();
+    } catch (error) {
+      console.error('Error al eliminar canción:', error);
+      // You might want to show an error message to the user here
+    }
   }
   
   //Fin

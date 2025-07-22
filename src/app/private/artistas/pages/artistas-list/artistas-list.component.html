@@ -78,7 +78,10 @@
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                       <button ngbDropdownItem [routerLink]="['/maintainer/artistas/detail', item.id]">Ver Detalle</button>
                       <button ngbDropdownItem>Editar Información</button>
-                      <button ngbDropdownItem>Eliminar</button>
+                      <button ngbDropdownItem (click)="confirmarEliminar(item)" class="text-danger">
+                        <i class="fa-solid fa-trash me-1"></i>
+                        Eliminar
+                      </button>
                     </div>
                   </div>
                 </td>

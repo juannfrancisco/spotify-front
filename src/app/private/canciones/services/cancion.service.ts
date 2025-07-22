@@ -22,4 +22,8 @@ export class CancionService {
     return this.httpClient.get<Cancion>(`${environment.apiEndpoint}/canciones/${id}`);
   }
   
+  delete(id: number){
+    return this.httpClient.delete(`${environment.apiEndpoint}/canciones/${id}`);
+  }
+  
 }

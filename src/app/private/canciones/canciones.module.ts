@@ -9,6 +9,7 @@ import { CancionesListComponent } from './pages/canciones-list/canciones-list.co
 import { CancionesNewComponent } from './pages/canciones-new/canciones-new.component';
 import { CancionDetailComponent } from './pages/cancion-detail/cancion-detail.component';
 import { ArtistasService } from '../artistas/services/artistas.service';
+import { SharedMaintainerModule } from 'src/app/shared/components/private/shared-maintainer.module';
 @NgModule({
   declarations: [
     CancionesListComponent,
@@ -23,6 +24,7 @@ import { ArtistasService } from '../artistas/services/artistas.service';
     ReactiveFormsModule,
     FormsModule,
     NgMultiSelectDropDownModule.forRoot(),
+    SharedMaintainerModule,
   ]
 })
 export class CancionesModule { }

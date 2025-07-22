@@ -31,4 +31,8 @@ export class PlaylistsService {
     return this.httpClient.post(`${environment.apiEndpoint}/playlists/${playlistId}/canciones/${cancionId}`, {});
   }
   
+  delete(id: number){
+    return this.httpClient.delete(`${environment.apiEndpoint}/playlists/${id}`);
+  }
+  
 }

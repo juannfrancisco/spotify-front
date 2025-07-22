@@ -4,6 +4,8 @@ import { FormatDataTableGlobal } from 'src/app/shared/util/datatables-option/for
 import { DataTableDirective } from 'angular-datatables';
 import { Playlist } from '../../models/playlist';
 import { PlaylistsService } from '../../services/playlists.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDeleteModalComponent } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal.component';
 
 @Component({
   selector: 'app-playlist-list',
@@ -25,7 +27,8 @@ export class PlaylistListComponent implements AfterViewInit, OnDestroy, OnInit {
   listViewProjectDto: any[];
 
   constructor(
-    private service:PlaylistsService
+    private service:PlaylistsService,
+    private modalService: NgbModal
   ) 
   { }
  
@@ -70,17 +73,28 @@ export class PlaylistListComponent implements AfterViewInit, OnDestroy, OnInit {
       });
   }
 
-  deletePlaylist(id: number): void {
-    if (confirm('¿Estás seguro de que quieres eliminar esta playlist?')) {
-      this.service.removeSongFromPlaylist(id, 0).subscribe({
-        next: () => {
-          
-        },
-        error: (error) => {
-          console.error('Error al eliminar la playlist:', error);
-        
-        }
-      });
+  confirmarEliminar(playlist: Playlist): void {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.itemName = playlist.nombre;
+    modalRef.componentInstance.itemType = 'playlist';
+
+    modalRef.result.then((result) => {
+      if (result === 'confirm') {
+        this.eliminarPlaylist(playlist.id);
+      }
+    }).catch(() => {
+      // Modal dismissed
+    });
+  }
+
+  private async eliminarPlaylist(id: number): Promise<void> {
+    try {
+      await this.service.delete(id).toPromise();
+      // Refresh the list after successful deletion
+      this.callHttpService();
+    } catch (error) {
+      console.error('Error al eliminar playlist:', error);
+      // You might want to show an error message to the user here
     }
   }
   
