@@ -1,0 +1,178 @@
+<div class="container-fluid">
+  <!-- Header -->
+  <div class="row">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item">
+              <a routerLink="/private/artistas/list">Artistas</a>
+            </li>
+            <li class="breadcrumb-item active">Detalle del Artista</li>
+          </ol>
+        </div>
+        <h4 class="page-title">Detalle del Artista</h4>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="row">
+    <div class="col-12">
+      <div class="text-center p-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Cargando...</span>
+        </div>
+        <p class="mt-2">Cargando información del artista...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error && !loading" class="row">
+    <div class="col-12">
+      <div class="alert alert-danger" role="alert">
+        <i class="fe-alert-triangle"></i>
+        Error al cargar la información del artista. Por favor, intente nuevamente.
+      </div>
+    </div>
+  </div>
+
+  <!-- Artista Detail -->
+  <div *ngIf="artista && !loading && !error" class="row">
+    <!-- Información del Artista -->
+    <div class="col-lg-4 col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="fe-user"></i>
+            Información del Artista
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="artista-info">
+            <div class="info-item mb-3">
+              <h6 class="text-muted mb-1">Nombre</h6>
+              <h4 class="mb-0">
+                {{ artista.nombre }}
+                <span *ngIf="artista.verificado" class="badge badge-success ms-2">
+                  <i class="fe-check-circle"></i> Verificado
+                </span>
+              </h4>
+            </div>
+            
+            <div class="info-item mb-3">
+              <h6 class="text-muted mb-1">País</h6>
+              <p class="mb-0">{{ artista.pais }}</p>
+            </div>
+            
+            <div class="info-item mb-3">
+              <h6 class="text-muted mb-1">Tipo</h6>
+              <p class="mb-0">{{ artista.tipo }}</p>
+            </div>
+            
+            <div class="info-item mb-3">
+              <h6 class="text-muted mb-1">Oyentes Mensuales</h6>
+              <p class="mb-0">{{ formatNumero(artista.oyentesMensuales) }}</p>
+            </div>
+            
+            <div class="info-item mb-3">
+              <h6 class="text-muted mb-1">Géneros Musicales</h6>
+              <div class="generos">
+                <span *ngFor="let genero of artista.generoMusical" 
+                      class="badge badge-primary me-1 mb-1">
+                  {{ genero }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Biografía -->
+    <div class="col-lg-8 col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="fe-file-text"></i>
+            Biografía
+          </h5>
+        </div>
+        <div class="card-body">
+          <p class="biografia">{{ artista.biografia }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Canciones del Artista -->
+  <div *ngIf="artista && !loading && !error" class="row mt-3">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="fe-music"></i>
+            Canciones ({{ canciones.length }})
+          </h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="canciones.length === 0" class="text-center p-4">
+            <i class="fe-music text-muted" style="font-size: 3rem;"></i>
+            <h5 class="text-muted mt-2">No hay canciones</h5>
+            <p class="text-muted">Este artista aún no tiene canciones registradas.</p>
+          </div>
+          
+          <div *ngIf="canciones.length > 0" class="table-responsive">
+            <table class="table table-striped table-hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+              <thead class="table-dark">
+                <tr>
+                  <th>Canción</th>
+                  <th>Álbum</th>
+                  <th>Duración</th>
+                  <th>Reproducciones</th>
+                  <th>Géneros</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let cancion of canciones">
+                  <td>
+                    <strong>{{ cancion.nombre }}</strong>
+                  </td>
+                  <td>{{ cancion.album }}</td>
+                  <td>
+                    <span class="badge badge-info">
+                      {{ formatDuracion(cancion.duracion) }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="text-success">
+                      <i class="fe-play-circle"></i>
+                      {{ formatNumero(cancion.reproducciones) }}
+                    </span>
+                  </td>
+                  <td>
+                    <span *ngFor="let genero of cancion.generoMusical" 
+                          class="badge badge-secondary me-1">
+                      {{ genero }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back Button -->
+  <div class="row mt-3" *ngIf="!loading">
+    <div class="col-12">
+      <button type="button" class="btn btn-secondary" routerLink="/private/artistas/list">
+        <i class="fe-arrow-left"></i>
+        Volver a la lista de artistas
+      </button>
+    </div>
+  </div>
+</div>

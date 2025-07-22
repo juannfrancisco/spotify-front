@@ -1,0 +1,98 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="card-title mb-0">Detalle de Canción</h4>
+          <button class="btn btn-secondary" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i> Volver
+          </button>
+        </div>
+        <div class="card-body">
+          <!-- Loading state -->
+          <div *ngIf="loading" class="text-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Cargando...</span>
+            </div>
+            <p class="mt-2">Cargando información de la canción...</p>
+          </div>
+
+          <!-- Error state -->
+          <div *ngIf="error && !loading" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            Error al cargar la información de la canción. Por favor, intenta nuevamente.
+          </div>
+
+          <!-- Canción detail -->
+          <div *ngIf="cancion && !loading && !error">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="song-info">
+                  <h2 class="song-title">{{ cancion.nombre }}</h2>
+                  
+                  <div class="song-details">
+                    <div class="detail-item">
+                      <strong>Artista:</strong> {{ cancion.artista?.nombre || 'No disponible' }}
+                    </div>
+                    
+                    <div class="detail-item">
+                      <strong>Álbum:</strong> {{ cancion.album || 'No disponible' }}
+                    </div>
+                    
+                    <div class="detail-item">
+                      <strong>Duración:</strong> {{ formatDuration(cancion.duracion) }}
+                    </div>
+                    
+                    <div class="detail-item">
+                      <strong>Reproducciones:</strong> {{ cancion.reproducciones?.toLocaleString() || '0' }}
+                    </div>
+                    
+                    <div class="detail-item" *ngIf="cancion.generoMusical && cancion.generoMusical.length > 0">
+                      <strong>Géneros musicales:</strong>
+                      <div class="genres mt-1">
+                        <span class="badge badge-primary me-1" *ngFor="let genero of cancion.generoMusical">
+                          {{ genero }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-4">
+                <div class="add-to-playlist-section">
+                  <h5>Agregar a Playlist</h5>
+                  
+                  <div class="form-group mb-3">
+                    <label for="playlistSelect">Seleccionar Playlist:</label>
+                    <select 
+                      id="playlistSelect"
+                      class="form-control" 
+                      [(ngModel)]="selectedPlaylistId"
+                      [disabled]="addingToPlaylist">
+                      <option value="">-- Selecciona una playlist --</option>
+                      <option 
+                        *ngFor="let playlist of playlists" 
+                        [value]="playlist.id">
+                        {{ playlist.nombre }}
+                      </option>
+                    </select>
+                  </div>
+                  
+                  <button 
+                    class="btn btn-success btn-block"
+                    (click)="addToPlaylist()"
+                    [disabled]="!selectedPlaylistId || addingToPlaylist">
+                    <span *ngIf="addingToPlaylist" class="spinner-border spinner-border-sm me-1" role="status"></span>
+                    <i *ngIf="!addingToPlaylist" class="fas fa-plus"></i>
+                    {{ addingToPlaylist ? 'Agregando...' : 'Agregar a Playlist' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

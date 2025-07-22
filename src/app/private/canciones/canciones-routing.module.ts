@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SessionGuard } from 'src/app/core/guards/session.guard';
 import { CancionesNewComponent } from './pages/canciones-new/canciones-new.component';
 import { CancionesListComponent } from './pages/canciones-list/canciones-list.component';
+import { CancionDetailComponent } from './pages/cancion-detail/cancion-detail.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'crear',
     component: CancionesNewComponent,canActivate: [SessionGuard], data: {role: ['0']}
+  },
+  {
+    path: 'detail/:id',
+    component: CancionDetailComponent,canActivate: [SessionGuard], data: {role: ['0']}
   },
 ];
 

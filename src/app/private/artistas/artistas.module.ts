@@ -7,11 +7,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ArtistasListComponent } from './pages/artistas-list/artistas-list.component';
 import { ArtistasNewComponent } from './pages/artistas-new/artistas-new.component';
+import { ArtistaDetailComponent } from './pages/artista-detail/artista-detail.component';
 import { ArtistasService } from './services/artistas.service';
 @NgModule({
   declarations: [
     ArtistasListComponent,
-    ArtistasNewComponent
+    ArtistasNewComponent,
+    ArtistaDetailComponent
   ],
   imports: [
     CommonModule,

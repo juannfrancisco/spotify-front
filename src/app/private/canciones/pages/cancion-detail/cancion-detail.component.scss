@@ -1,0 +1,122 @@
+.song-info {
+  .song-title {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .song-details {
+    .detail-item {
+      margin-bottom: 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      strong {
+        color: #34495e;
+        display: inline-block;
+        min-width: 140px;
+      }
+    }
+
+    .genres {
+      .badge {
+        margin-right: 0.5rem;
+        margin-bottom: 0.25rem;
+        background-color: #3498db !important;
+      }
+    }
+  }
+}
+
+.add-to-playlist-section {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+
+  h5 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .form-control {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    
+    &:focus {
+      border-color: #28a745;
+      box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    border-radius: 6px;
+    font-weight: 500;
+    
+    &:hover:not(:disabled) {
+      background-color: #218838;
+      border-color: #1e7e34;
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 8px;
+
+  .card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 8px 8px 0 0;
+
+    .card-title {
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+      
+      &:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+      }
+    }
+  }
+}
+
+.spinner-border {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (max-width: 768px) {
+  .add-to-playlist-section {
+    margin-top: 2rem;
+  }
+  
+  .song-details .detail-item strong {
+    min-width: auto;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+}

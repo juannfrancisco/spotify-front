@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SessionGuard } from 'src/app/core/guards/session.guard';
 import { PlaylistListComponent } from './pages/playlist-list/playlist-list.component';
 import { PlaylistNewComponent } from './pages/playlist-new/playlist-new.component';
+import { PlaylistDetailComponent } from './pages/playlist-detail/playlist-detail.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'new',
     component: PlaylistNewComponent, canActivate: [SessionGuard], data: {role: ['0']}
+  },
+  {
+    path: 'detail/:id',
+    component: PlaylistDetailComponent, canActivate: [SessionGuard], data: {role: ['0']}
   },
 ];
 

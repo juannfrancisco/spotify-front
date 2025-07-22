@@ -18,5 +18,17 @@ export class PlaylistsService {
   save(playlist: Playlist){
     return this.httpClient.post(`${environment.apiEndpoint}/playlists`, playlist);
   }
+
+  getById(id: number){
+    return this.httpClient.get<Playlist>(`${environment.apiEndpoint}/playlists/${id}`);
+  }
+
+  removeSongFromPlaylist(playlistId: number, cancionId: number){
+    return this.httpClient.delete(`${environment.apiEndpoint}/playlists/${playlistId}/canciones/${cancionId}`);
+  }
+
+  addSongToPlaylist(playlistId: number, cancionId: number){
+    return this.httpClient.post(`${environment.apiEndpoint}/playlists/${playlistId}/canciones/${cancionId}`, {});
+  }
   
 }

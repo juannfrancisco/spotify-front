@@ -17,5 +17,9 @@ export class CancionService {
   save(cancion: Cancion){
     return this.httpClient.post(`${environment.apiEndpoint}/canciones`, cancion);
   }
+
+  getById(id: number){
+    return this.httpClient.get<Cancion>(`${environment.apiEndpoint}/canciones/${id}`);
+  }
   
 }

@@ -13,6 +13,9 @@ export class ArtistasService {
     return this.httpClient.get<Artista[]>(`${environment.apiEndpoint}/artistas`);
   }
 
+  getById(id: number){
+    return this.httpClient.get<Artista>(`${environment.apiEndpoint}/artistas/${id}`);
+  }
 
   save(artista: Artista){
     return this.httpClient.post(`${environment.apiEndpoint}/artistas`, artista);

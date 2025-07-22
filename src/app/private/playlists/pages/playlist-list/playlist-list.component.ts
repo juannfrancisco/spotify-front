@@ -69,6 +69,20 @@ export class PlaylistListComponent implements AfterViewInit, OnDestroy, OnInit {
         });
       });
   }
+
+  deletePlaylist(id: number): void {
+    if (confirm('¿Estás seguro de que quieres eliminar esta playlist?')) {
+      this.service.removeSongFromPlaylist(id, 0).subscribe({
+        next: () => {
+          
+        },
+        error: (error) => {
+          console.error('Error al eliminar la playlist:', error);
+        
+        }
+      });
+    }
+  }
   
   //Fin
 

@@ -6,11 +6,13 @@ import { DataTablesModule } from 'angular-datatables';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PlaylistListComponent } from './pages/playlist-list/playlist-list.component';
 import { PlaylistNewComponent } from './pages/playlist-new/playlist-new.component';
+import { PlaylistDetailComponent } from './pages/playlist-detail/playlist-detail.component';
 
 @NgModule({
   declarations: [
     PlaylistListComponent,
-    PlaylistNewComponent
+    PlaylistNewComponent,
+    PlaylistDetailComponent
   ],
   imports: [
     CommonModule,

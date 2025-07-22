@@ -1,0 +1,58 @@
+// Estilos específicos para el componente playlist-detail
+.playlist-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.playlist-info {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.song-list-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.genre-badge {
+  font-size: 0.75rem;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+
+.duration-display {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.empty-playlist {
+  padding: 40px 20px;
+  text-align: center;
+  color: #6c757d;
+}
+
+.action-buttons {
+  .btn {
+    margin-left: 8px;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .action-buttons {
+    .btn {
+      margin-left: 0;
+      margin-top: 8px;
+      width: 100%;
+    }
+  }
+  
+  .playlist-info {
+    padding: 15px;
+  }
+}

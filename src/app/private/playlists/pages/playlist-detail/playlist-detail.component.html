@@ -1,0 +1,127 @@
+<div class="mt-0 m-4">
+  <div class="card border-0 rounded-0 h-100 mb-4">
+    <div class="card-body">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/maintainer">Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="/maintainer/playlists/list">Playlists</a>
+          </li>
+          <li class="breadcrumb-item active">Detalle</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-bar-value" [hidden]="!loading"></div>
+    </div>
+  </div>
+
+  <div class="card border-0 rounded-0">
+    <div class="card-title mb-1 p-3">
+      <div class="row">
+        <div class="col">
+          <h5 *ngIf="playlist">{{ playlist.nombre }}</h5>
+          <h5 *ngIf="!playlist">Detalle de Playlist</h5>
+        </div>
+        <div class="col text-end">
+          <button (click)="goBack()" class="btn btn-secondary me-2">
+            <i class="fa-solid fa-arrow-left fs-6"></i>
+            Volver
+          </button>
+          <button *ngIf="playlist" (click)="editPlaylist()" class="btn btn-lightning">
+            <i class="fa-solid fa-edit fs-6"></i>
+            Editar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body" style="padding:0px;">
+      <!-- Información de la playlist -->
+      <div *ngIf="playlist && !loading && !error" class="p-3 border-bottom">
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Nombre:</strong> {{ playlist.nombre }}</p>
+            <p><strong>Fecha de creación:</strong> {{ playlist.fechaCreacion | date:'dd/MM/yyyy' }}</p>
+            <p><strong>Total de canciones:</strong> {{ playlist.canciones.length }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error loading playlist -->
+      <ng-container *ngIf="!loading && error">
+        <div class="text-center text-color p-5">
+          <h2 class="text-color px-5 mt-5">Error al cargar la playlist</h2>
+          <i class="fa-solid fa-face-sad-cry fa-5x my-3"></i>
+          <p>No se pudo cargar la información de la playlist</p>
+        </div>
+      </ng-container>
+
+      <!-- Loading state -->
+      <ng-container *ngIf="loading">
+        <div class="text-center text-color p-5">
+          <h2 class="text-color px-5 mt-5">Cargando...</h2>
+          <i class="fa-solid fa-spinner fa-spin fa-5x my-3"></i>
+        </div>
+      </ng-container>
+
+      <!-- Lista de canciones -->
+      <div *ngIf="playlist && !loading && !error" class="backgroundTable">
+        <div class="p-3">
+          <h6>Canciones de la playlist</h6>
+        </div>
+        
+        <ng-container *ngIf="playlist.canciones.length === 0">
+          <div class="text-center text-color p-5">
+            <h5 class="text-color px-5 mt-3">Esta playlist no tiene canciones</h5>
+            <i class="fa-solid fa-music fa-3x my-3"></i>
+            <p>Agrega algunas canciones para comenzar</p>
+          </div>
+        </ng-container>
+
+        <table *ngIf="playlist.canciones.length > 0" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="componente-importantes componente-importantes-from-popup">
+          <thead class="bg-primary-subtle">
+            <tr>
+              <th class="text-color text-start">Id</th>
+              <th class="text-color text-start">Nombre</th>
+              <th class="text-color text-start">Artista</th>
+              <th class="text-color text-start">Álbum</th>
+              <th class="text-color text-start">Duración</th>
+              <th class="text-color text-start">Reproducciones</th>
+              <th class="text-color text-start">Géneros</th>
+              <th class="text-color text-start">Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cancion of playlist.canciones">
+              <td class="text-start pointer text-init text-color">{{ cancion.id }}</td>
+              <td class="text-start pointer text-init text-color">{{ cancion.nombre }}</td>
+              <td class="text-start pointer text-init text-color">{{ cancion.artista.nombre }}</td>
+              <td class="text-start pointer text-init text-color">{{ cancion.album }}</td>
+              <td class="text-start pointer text-init text-color">{{ formatDuration(cancion.duracion) }}</td>
+              <td class="text-start pointer text-init text-color">{{ cancion.reproducciones | number }}</td>
+              <td class="text-start pointer text-init text-color">
+                <span *ngFor="let genero of cancion.generoMusical; let last = last" class="badge bg-secondary me-1">
+                  {{ genero }}
+                </span>
+              </td>
+              <td class="text-start">
+                <div ngbDropdown class="d-inline-block">
+                  <i class="fa-solid fa-gear fa-xl pointer" id="dropdownBasic1" ngbDropdownToggle></i>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem (click)="removeSongFromPlaylist(cancion.id || 0)" class="text-danger">
+                      <i class="fa-solid fa-trash me-2"></i>
+                      Eliminar de playlist
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -68,9 +68,8 @@
                   <div ngbDropdown class="d-inline-block">
                     <i class="fa-solid fa-gear fa-xl pointer" id="dropdownBasic1" ngbDropdownToggle></i>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                      <button ngbDropdownItem>Ver Más</button>
-                      <button ngbDropdownItem>Editar Información</button>
-                      <button ngbDropdownItem>Eliminar</button>
+                      <button ngbDropdownItem routerLink="/maintainer/playlists/detail/{{item.id}}">Ver Más</button>
+                      <button ngbDropdownItem (click)="deletePlaylist(item.id)">Eliminar</button>
                     </div>
                   </div>
                 </td>
