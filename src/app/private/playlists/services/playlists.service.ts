@@ -14,5 +14,9 @@ export class PlaylistsService {
   getAlls(){
     return this.httpClient.get<Playlist[]>(`${environment.apiEndpoint}/playlists`);
   }
+
+  save(playlist: Playlist){
+    return this.httpClient.post(`${environment.apiEndpoint}/playlists`, playlist);
+  }
   
 }
